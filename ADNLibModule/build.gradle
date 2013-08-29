@@ -21,3 +21,7 @@ android {
         targetSdkVersion 18
     }
 }
+
+dependencies {
+    compile files('libs/gson-2.2.4.jar')
+}
