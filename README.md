@@ -41,8 +41,9 @@ public class MainActivity extends Activity {
 }
 ```
 
-**If it doesn't compile and run, close Android Studio, blow in the end of the cartridge, and restart.**
-
+#### Troubleshooting
+* You might need to copy the local.properties from the root of the project to the ADNLibModule folder. On OS X, this file typically contains: ``sdk.dir=/Applications/Android Studio.app/sdk``
+* If it still doesn't compile and run, close Android Studio, blow in the end of the cartridge, and restart.
 
 ### Overview
 The main class is `AppDotNetClient`. ADNLib uses Gson to serialize from and deserialize to a set of first-class data objects that live in the `data` package (e.g. `User` and `Post`). Because ADNLib uses Android's AsyncTask for multithreaded network access, client requests require a response handler, which live in the `response` package (e.g. `LoginResponseHandler` and `PostResponseHandler`). On each response handler you must override `onSuccess`, and you may optionally override `onError`.
