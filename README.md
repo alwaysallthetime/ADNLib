@@ -7,7 +7,7 @@ App.net library for Android
 ADNLib is a work in progress. Currently it only supports a basic set of User and Post actions. It also supports password flow authentication, or you can retrieve an access token on your own and pass it to the client. ADNLib is set up to be used with Android Studio.
 
 ### Getting Started
-*These instructions were written for Android Studio 0.2.6. It is still a "Preview" that often works in mysterious ways. For this reason, we do things a little funky. If you are an Android Studio pro, then feel free to set up the project however you'd prefer. Please note that these instructions may become stale as Android Studio updates are released.*
+*ADNLib is a standalone Android Studio project, but here we describe how to add it as a module to your existing project. These instructions were written for Android Studio 0.2.6. It is still a "Preview" that often works in mysterious ways. For this reason, we do things a little funky. If you are an Android Studio pro, then feel free to set up the project however you'd prefer. Please note that these instructions may become stale as Android Studio updates are released.*
 
 1. Clone ADNLib into the root 
 2. Close your Android Studio project.
@@ -22,6 +22,7 @@ ADNLib is a work in progress. Currently it only supports a basic set of User and
 8. Open the build.gradle *within* your main module (not the top-level build.gradle). In the dependencies block, add the following line:
 `` compile project(':ADNLib:ADNLibModule') ``
 9. You should be set. In your main Activity try importing and constructing a new AppDotNetClient(), e.g.
+
 ```java
 import android.app.Activity;
 import android.os.Bundle;
@@ -39,7 +40,8 @@ public class MainActivity extends Activity {
     }
 }
 ```
-10. If it doesn't compile and run, close Android Studio, blow in the end of the cartridge, and restart.
+
+**If it doesn't compile and run, close Android Studio, blow in the end of the cartridge, and restart.**
 
 
 ### Overview
@@ -47,18 +49,18 @@ The main class is `AppDotNetClient`. ADNLib uses Gson to serialize from and dese
 
 ### Initialization
 #### With existing access token
-```
+```java
 AppDotNetClient client = new AppDotNetClient(accessToken);
 ```
 or
-```
+```java
 AppDotNetClient client = new AppDotNetClient();
 ...
 client.setToken(accessToken);
 ```
 
 #### Using password flow authentication
-```
+```java
 AppDotNetClient client = new AppDotNetClient(clientId, passwordGrantSecret);
 client.authenticateWithPassword(username, password, scope, new LoginResponseHandler() {
     @Override
@@ -70,7 +72,7 @@ client.authenticateWithPassword(username, password, scope, new LoginResponseHand
 
 ### Basic examples
 #### Get current user
-```
+```java
 client.retrieveCurrentUser(new UserResponseHandler() {
     @Override
     public void onSuccess(User user) {
@@ -80,7 +82,7 @@ client.retrieveCurrentUser(new UserResponseHandler() {
 ```
 
 #### Star a post
-```
+```java
 client.starPost(postId, new PostResponseHandler() {
     @Override
     public void onSuccess(Post post) {
@@ -90,7 +92,7 @@ client.starPost(postId, new PostResponseHandler() {
 ```
 
 #### Create a new post
-```
+```java
 Post post = new Post("test post");
 client.createPost(post, new PostResponseHandler() {
     @Override
@@ -101,7 +103,7 @@ client.createPost(post, new PostResponseHandler() {
 ```
 
 #### Follow a user
-```
+```java
 client.followUser(userId, new UserResponseHandler() {
     @Override
     public void onSuccess(User user) {
@@ -113,7 +115,7 @@ client.followUser(userId, new UserResponseHandler() {
 ### Query parameters
 Each client method has a variation that takes a `QueryParameters` instance. The general endpoint parameters are pre-defined on the `GeneralParameter` enum.
 #### Example
-```
+```java
 client.retrieveUser(userId, new QueryParameters(GeneralParameter.INCLUDE_ANNOTATIONS), new UserResponseHandler() {
     @Override
     public void onSuccess(User user) {
