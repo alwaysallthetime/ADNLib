@@ -9,8 +9,8 @@ ADNLib is a work in progress. Currently it only supports a basic set of User and
 ### Getting Started
 *ADNLib is a standalone Android Studio project, but here we describe how to add it as a module to your existing project. These instructions were written for Android Studio 0.2.6. It is still a "Preview" that often works in mysterious ways. For this reason, we do things a little funky. If you are an Android Studio pro, then feel free to set up the project however you'd prefer. Please note that these instructions may become stale as Android Studio updates are released.*
 
-1. Clone ADNLib into the root 
-2. Close your Android Studio project.
+1. Clone ADNLib into the root of your Android Studio project. 
+2. Close your project.
 3. Open the .idea/modules.xml file for your project and add the following lines to your ``<modules>``:
 ``<module fileurl="file://$PROJECT_DIR$/ADNLib/ADNLib.iml" filepath="$PROJECT_DIR$/ADNLib/ADNLib.iml" />``
 ``<module fileurl="file://$PROJECT_DIR$/ADNLib/ADNLibModule/ADNLibModule.iml" filepath="$PROJECT_DIR$/ADNLib/ADNLibModule/ADNLibModule.iml" />``
