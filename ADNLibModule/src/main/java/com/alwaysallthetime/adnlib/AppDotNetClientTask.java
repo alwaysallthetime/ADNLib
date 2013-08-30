@@ -3,8 +3,8 @@ package com.alwaysallthetime.adnlib;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.alwaysallthetime.adnlib.response.AppDotNetResponseHandler;
 import com.alwaysallthetime.adnlib.request.AppDotNetRequest;
+import com.alwaysallthetime.adnlib.response.AppDotNetResponseHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,13 +13,22 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocketFactory;
+
 class AppDotNetClientTask extends AsyncTask<AppDotNetRequest, Void, Void> {
     private static final String TAG = "AppDotNetClientTask";
 
     private final String authorizationHeader;
+    private final SSLSocketFactory sslSocketFactory;
+
+    public AppDotNetClientTask(String authorizationHeader, SSLSocketFactory sslSocketFactory) {
+        this.authorizationHeader = authorizationHeader;
+        this.sslSocketFactory = sslSocketFactory;
+    }
 
     public AppDotNetClientTask(String authorizationHeader) {
-        this.authorizationHeader = authorizationHeader;
+        this(authorizationHeader, null);
     }
 
     @Override
@@ -35,6 +44,9 @@ class AppDotNetClientTask extends AsyncTask<AppDotNetRequest, Void, Void> {
             try {
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod(request.getMethod());
+
+                if (sslSocketFactory != null && url.getProtocol().equals("https"))
+                    ((HttpsURLConnection) connection).setSSLSocketFactory(sslSocketFactory);
 
                 if (request.isAuthenticated())
                     connection.setRequestProperty("Authorization", authorizationHeader);

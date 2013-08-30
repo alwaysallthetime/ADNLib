@@ -23,6 +23,8 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.SSLSocketFactory;
+
 public class AppDotNetClient {
     public static final String METHOD_DELETE = "DELETE";
     public static final String METHOD_GET = "GET";
@@ -35,6 +37,7 @@ public class AppDotNetClient {
 
     protected String authHeader;
     protected List<NameValuePair> authParams;
+    protected SSLSocketFactory sslSocketFactory;
 
     public AppDotNetClient() {}
 
@@ -55,6 +58,10 @@ public class AppDotNetClient {
 
     public boolean hasToken() {
         return authHeader != null;
+    }
+
+    public void setSslSocketFactory(SSLSocketFactory sslSocketFactory) {
+        this.sslSocketFactory = sslSocketFactory;
     }
 
     /*
@@ -312,7 +319,7 @@ public class AppDotNetClient {
             throw new IllegalStateException("authentication token not set");
         }
 
-        final AppDotNetClientTask task = new AppDotNetClientTask(authHeader);
+        final AppDotNetClientTask task = new AppDotNetClientTask(authHeader, sslSocketFactory);
 
         // AsyncTask was changed in Honeycomb to execute in serial by default, at which time
         // executeOnExecutor was added to specify parallel execution.
