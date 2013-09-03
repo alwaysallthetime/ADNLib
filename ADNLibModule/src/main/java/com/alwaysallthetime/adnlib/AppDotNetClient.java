@@ -12,6 +12,7 @@ import com.alwaysallthetime.adnlib.request.AppDotNetOAuthRequest;
 import com.alwaysallthetime.adnlib.request.AppDotNetRequest;
 import com.alwaysallthetime.adnlib.response.AccessTokenResponseHandler;
 import com.alwaysallthetime.adnlib.response.LoginResponseHandler;
+import com.alwaysallthetime.adnlib.response.MessageListResponseHandler;
 import com.alwaysallthetime.adnlib.response.PostResponseHandler;
 import com.alwaysallthetime.adnlib.response.TokenResponseHandler;
 import com.alwaysallthetime.adnlib.response.UserListResponseHandler;
@@ -35,6 +36,8 @@ public class AppDotNetClient {
     protected static final int ID_LENGTH = 10; // max string length of user ID including delimiter
     protected static final String ENDPOINT_USERS = "users";
     protected static final String ENDPOINT_POSTS = "posts";
+    protected static final String ENDPOINT_MESSAGES = "messages";
+    protected static final String ENDPOINT_CHANNELS = "channels";
 
     protected String authHeader;
     protected String languageHeader;
@@ -311,6 +314,22 @@ public class AppDotNetClient {
     public void unstarPost(String postId, PostResponseHandler responseHandler) {
         unstarPost(postId, null, responseHandler);
     }
+
+    /*
+     * MESSAGE
+     */
+    public void retrieveMessages(String channelId, String sinceId, String beforeId, MessageListResponseHandler responseHandler) {
+        QueryParameters queryParameters = new QueryParameters();
+        queryParameters.put(GeneralParameter.INCLUDE_MACHINE);
+        if(sinceId != null) {
+            queryParameters.put("since_id", sinceId);
+        }
+        if(beforeId != null) {
+            queryParameters.put("before_id", beforeId);
+        }
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_CHANNELS, channelId, ENDPOINT_MESSAGES));
+    }
+
 
     /*
      * TOKEN
