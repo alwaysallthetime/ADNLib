@@ -12,8 +12,12 @@ ADNLib is a work in progress. Currently it only supports a basic set of User and
 1. Clone ADNLib into the root of your Android Studio project. 
 2. Close your project.
 3. Open the .idea/modules.xml file for your project and add the following lines to your ``<modules>``:
-``<module fileurl="file://$PROJECT_DIR$/ADNLib/ADNLib.iml" filepath="$PROJECT_DIR$/ADNLib/ADNLib.iml" />``
-``<module fileurl="file://$PROJECT_DIR$/ADNLib/ADNLibModule/ADNLibModule.iml" filepath="$PROJECT_DIR$/ADNLib/ADNLibModule/ADNLibModule.iml" />``
+    
+    ```
+    <module fileurl="file://$PROJECT_DIR$/ADNLib/ADNLib.iml" filepath="$PROJECT_DIR$/ADNLib/ADNLib.iml" />
+    <module fileurl="file://$PROJECT_DIR$/ADNLib/ADNLibModule/ADNLibModule.iml"
+        filepath="$PROJECT_DIR$/ADNLib/ADNLibModule/ADNLibModule.iml" />
+    ```
 4. Reopen your Android Studio project. You will notice that ADNLib and ADNLibModule are now recognized as modules (bold in the Project View)
 5. File > Project Structure
 6. In the Modules section, select your project's main module, open the "Dependencies" tab, click the "+" button and add a Module Dependency on ADNLibModule.
