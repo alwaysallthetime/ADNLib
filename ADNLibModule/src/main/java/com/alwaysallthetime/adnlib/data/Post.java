@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import java.util.Date;
 
-public class Post extends Annotatable implements IAppDotNetObject {
+public class Post extends Annotatable {
     @Expose(serialize = false)
     private String id;
     @Expose(serialize = false)

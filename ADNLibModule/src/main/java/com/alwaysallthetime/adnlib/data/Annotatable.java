@@ -2,7 +2,7 @@ package com.alwaysallthetime.adnlib.data;
 
 import java.util.ArrayList;
 
-public abstract class Annotatable {
+public abstract class Annotatable implements IAppDotNetObject {
     protected ArrayList<Annotation> annotations;
 
     protected Annotatable() {
