@@ -2,9 +2,7 @@ package com.alwaysallthetime.adnlib.data;
 
 import com.google.gson.annotations.Expose;
 
-import java.util.Date;
-
-public class Post extends Message implements IAppDotNetObject {
+public class Post extends AbstractPost {
     @Expose(serialize = false)
     private String canonicalUrl;
     @Expose(serialize = false)
@@ -21,6 +19,12 @@ public class Post extends Message implements IAppDotNetObject {
     private User[] reposters;
     @Expose(serialize = false)
     private Post repostOf;
+
+    public Post() {}
+
+    public Post(String text) {
+        super(text);
+    }
 
     public String getCanonicalUrl() {
         return canonicalUrl;
