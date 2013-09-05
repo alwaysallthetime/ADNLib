@@ -20,11 +20,17 @@ class AppDotNetClientTask extends AsyncTask<AppDotNetRequest, Void, Void> {
     private static final String TAG = "AppDotNetClientTask";
 
     private final String authorizationHeader;
+    private final String languageHeader;
     private final SSLSocketFactory sslSocketFactory;
 
-    public AppDotNetClientTask(String authorizationHeader, SSLSocketFactory sslSocketFactory) {
+    public AppDotNetClientTask(String authorizationHeader, String languageHeader, SSLSocketFactory sslSocketFactory) {
         this.authorizationHeader = authorizationHeader;
+        this.languageHeader = languageHeader;
         this.sslSocketFactory = sslSocketFactory;
+    }
+
+    public AppDotNetClientTask(String authorizationHeader, SSLSocketFactory sslSocketFactory) {
+        this(authorizationHeader, null, sslSocketFactory);
     }
 
     public AppDotNetClientTask(String authorizationHeader) {
@@ -50,6 +56,9 @@ class AppDotNetClientTask extends AsyncTask<AppDotNetRequest, Void, Void> {
 
                 if (request.isAuthenticated())
                     connection.setRequestProperty("Authorization", authorizationHeader);
+
+                if (languageHeader != null)
+                    connection.setRequestProperty("Accept-Language", languageHeader);
 
                 if (request.hasBody()) {
                     connection.setDoOutput(true);
