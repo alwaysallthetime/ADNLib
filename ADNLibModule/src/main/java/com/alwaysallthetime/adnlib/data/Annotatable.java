@@ -1,12 +1,20 @@
 package com.alwaysallthetime.adnlib.data;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 
 public abstract class Annotatable implements IAppDotNetObject {
+    @Expose(serialize = false)
+    protected String id;
     protected ArrayList<Annotation> annotations;
 
     protected Annotatable() {
         annotations = new ArrayList<Annotation>();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public ArrayList<Annotation> getAnnotations() {

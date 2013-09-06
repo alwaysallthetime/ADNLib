@@ -6,8 +6,6 @@ import java.util.Date;
 
 public class AbstractPost extends Annotatable {
     @Expose(serialize = false)
-    private String id;
-    @Expose(serialize = false)
     private User user;
     @Expose(serialize = false)
     private Date createdAt;
@@ -30,10 +28,6 @@ public class AbstractPost extends Annotatable {
 
     public AbstractPost(String text) {
         this.text = text;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public User getUser() {

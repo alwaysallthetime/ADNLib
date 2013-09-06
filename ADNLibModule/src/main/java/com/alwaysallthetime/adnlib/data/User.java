@@ -7,8 +7,6 @@ import java.util.Date;
 
 public class User extends Annotatable {
     @Expose(serialize = false)
-    private String id;
-    @Expose(serialize = false)
     private String username;
     private String name;
     private Description description;
@@ -50,10 +48,6 @@ public class User extends Annotatable {
         copy.getDescription().clearEntities();
         copy.clearAnnotations();
         return copy;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getUsername() {
