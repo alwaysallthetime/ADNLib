@@ -3,6 +3,7 @@ package com.alwaysallthetime.adnlib;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import com.alwaysallthetime.adnlib.data.Annotatable;
 import com.alwaysallthetime.adnlib.data.Post;
 import com.alwaysallthetime.adnlib.data.User;
 import com.alwaysallthetime.adnlib.request.AppDotNetApiImageUploadRequest;
@@ -33,7 +34,7 @@ public class AppDotNetClient {
     public static final String METHOD_POST = "POST";
     public static final String METHOD_PUT = "PUT";
 
-    protected static final int ID_LENGTH = 10; // max string length of user ID including delimiter
+    protected static final int ID_LENGTH = 10; // max string length of object ID including delimiter
     protected static final String ENDPOINT_USERS = "users";
     protected static final String ENDPOINT_POSTS = "posts";
     protected static final String ENDPOINT_MESSAGES = "messages";
@@ -218,13 +219,7 @@ public class AppDotNetClient {
     }
 
     public void retrieveUsersById(List<String> userIds, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
-        final StringBuilder buffer = new StringBuilder(userIds.size() * ID_LENGTH);
-        for (final String userId : userIds) {
-            buffer.append(userId);
-            buffer.append(',');
-        }
-        final String userIdsString = buffer.substring(0, buffer.length() - 1);
-        retrieveUsers(userIdsString, queryParameters, responseHandler);
+        retrieveUsers(getIdString(userIds), queryParameters, responseHandler);
     }
 
     public void retrieveUsersById(List<String> userIds, UserListResponseHandler responseHandler) {
@@ -232,11 +227,7 @@ public class AppDotNetClient {
     }
 
     public void retrieveUsers(List<User> users, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
-        final ArrayList<String> userIds = new ArrayList<String>(users.size());
-        for (final User user : users) {
-            userIds.add(user.getId());
-        }
-        retrieveUsersById(userIds, queryParameters, responseHandler);
+        retrieveUsers(getObjectIdString(users), queryParameters, responseHandler);
     }
 
     public void retrieveUsers(List<User> users, UserListResponseHandler responseHandler) {
@@ -339,6 +330,29 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, null, "token"));
     }
 
+
+    /*
+     * MISC
+     */
+
+    protected String getIdString(List<String> ids) {
+        final StringBuilder buffer = new StringBuilder(ids.size() * ID_LENGTH);
+        for (final String id : ids) {
+            buffer.append(id);
+            buffer.append(',');
+        }
+
+        return buffer.substring(0, buffer.length() - 1);
+    }
+
+    protected String getObjectIdString(List<? extends Annotatable> objects) {
+        final ArrayList<String> ids = new ArrayList<String>(objects.size());
+        for (final Annotatable object : objects) {
+            ids.add(object.getId());
+        }
+
+        return getIdString(ids);
+    }
 
     protected void execute(AppDotNetRequest request) {
         if (request.isAuthenticated() && !hasToken()) {
