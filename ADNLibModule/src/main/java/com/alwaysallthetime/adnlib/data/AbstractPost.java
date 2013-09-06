@@ -28,6 +28,11 @@ public class AbstractPost extends Annotatable {
 
     public AbstractPost(String text) {
         this.text = text;
+        this.machineOnly = false;
+    }
+
+    public AbstractPost(boolean machineOnly) {
+        this.machineOnly = machineOnly;
     }
 
     public User getUser() {

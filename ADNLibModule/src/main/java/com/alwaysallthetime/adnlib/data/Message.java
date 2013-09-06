@@ -12,6 +12,10 @@ public class Message extends AbstractPost {
         super(text);
     }
 
+    public Message(boolean machineOnly) {
+        super(machineOnly);
+    }
+
     public String getChannelId() {
         return channelId;
     }

@@ -26,6 +26,10 @@ public class Post extends AbstractPost {
         super(text);
     }
 
+    public Post(boolean machineOnly) {
+        super(machineOnly);
+    }
+
     public String getCanonicalUrl() {
         return canonicalUrl;
     }
