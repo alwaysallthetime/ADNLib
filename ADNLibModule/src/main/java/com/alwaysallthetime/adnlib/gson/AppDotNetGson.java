@@ -1,5 +1,6 @@
 package com.alwaysallthetime.adnlib.gson;
 
+import com.alwaysallthetime.adnlib.data.Count;
 import com.alwaysallthetime.adnlib.data.IAppDotNetObject;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -15,6 +16,7 @@ public class AppDotNetGson {
     static {
         instance = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .registerTypeAdapter(Count.class, new CountDeserializer())
                 .registerTypeAdapter(Date.class, new Iso8601DateTypeAdapter())
                 .addSerializationExclusionStrategy(new IncludeFieldsByDefaultSerializationExclusionStrategy())
                 .create();
