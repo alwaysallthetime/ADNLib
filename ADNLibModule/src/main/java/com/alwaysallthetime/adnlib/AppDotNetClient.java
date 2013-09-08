@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 
 import com.alwaysallthetime.adnlib.data.Annotatable;
+import com.alwaysallthetime.adnlib.data.Channel;
 import com.alwaysallthetime.adnlib.data.Post;
 import com.alwaysallthetime.adnlib.data.User;
 import com.alwaysallthetime.adnlib.request.AppDotNetApiImageUploadRequest;
@@ -12,6 +13,9 @@ import com.alwaysallthetime.adnlib.request.AppDotNetApiRequest;
 import com.alwaysallthetime.adnlib.request.AppDotNetOAuthRequest;
 import com.alwaysallthetime.adnlib.request.AppDotNetRequest;
 import com.alwaysallthetime.adnlib.response.AccessTokenResponseHandler;
+import com.alwaysallthetime.adnlib.response.ChannelListResponseHandler;
+import com.alwaysallthetime.adnlib.response.ChannelResponseHandler;
+import com.alwaysallthetime.adnlib.response.CountResponseHandler;
 import com.alwaysallthetime.adnlib.response.LoginResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageListResponseHandler;
 import com.alwaysallthetime.adnlib.response.PostResponseHandler;
@@ -37,8 +41,8 @@ public class AppDotNetClient {
     protected static final int ID_LENGTH = 10; // max string length of object ID including delimiter
     protected static final String ENDPOINT_USERS = "users";
     protected static final String ENDPOINT_POSTS = "posts";
-    protected static final String ENDPOINT_MESSAGES = "messages";
     protected static final String ENDPOINT_CHANNELS = "channels";
+    protected static final String ENDPOINT_MESSAGES = "messages";
 
     protected String authHeader;
     protected String languageHeader;
@@ -304,6 +308,142 @@ public class AppDotNetClient {
 
     public void unstarPost(String postId, PostResponseHandler responseHandler) {
         unstarPost(postId, null, responseHandler);
+    }
+
+    /*
+     * CHANNEL
+     */
+
+    public void retrieveCurrentUserSubscribedChannels(QueryParameters queryParameters, ChannelListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_CHANNELS));
+    }
+
+    public void retrieveCurrentUserSubscribedChannels(ChannelListResponseHandler responseHandler) {
+        retrieveCurrentUserSubscribedChannels(null, responseHandler);
+    }
+
+    public void createChannel(Channel channel, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        execute(new AppDotNetApiJsonRequest(responseHandler, channel, queryParameters, ENDPOINT_CHANNELS));
+    }
+
+    public void createChannel(Channel channel, ChannelResponseHandler responseHandler) {
+        createChannel(channel, null, responseHandler);
+    }
+
+    public void retrieveChannel(String channelId, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_CHANNELS, channelId));
+    }
+
+    public void retrieveChannel(String channelId, ChannelResponseHandler responseHandler) {
+        retrieveChannel(channelId, null, responseHandler);
+    }
+
+    protected void retrieveChannels(String channelIds, QueryParameters queryParameters, ChannelListResponseHandler responseHandler) {
+        if (queryParameters == null)
+            queryParameters = new QueryParameters();
+
+        queryParameters.put("ids", channelIds);
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_CHANNELS));
+    }
+
+    public void retrieveChannelsById(List<String> channelIds, QueryParameters queryParameters, ChannelListResponseHandler responseHandler) {
+        retrieveChannels(getIdString(channelIds), queryParameters, responseHandler);
+    }
+
+    public void retrieveChannelsById(List<String> channelIds, ChannelListResponseHandler responseHandler) {
+        retrieveChannelsById(channelIds, null, responseHandler);
+    }
+
+    public void retrieveChannels(List<Channel> channels, QueryParameters queryParameters, ChannelListResponseHandler responseHandler) {
+        retrieveChannels(getObjectIdString(channels), queryParameters, responseHandler);
+    }
+
+    public void retrieveChannels(List<Channel> channels, ChannelListResponseHandler responseHandler) {
+        retrieveChannels(channels, null, responseHandler);
+    }
+
+    public void retrieveCurrentUserChannels(QueryParameters queryParameters, ChannelListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, "me", ENDPOINT_CHANNELS));
+    }
+
+    public void retrieveCurrentUserChannels(ChannelListResponseHandler responseHandler) {
+        retrieveCurrentUserChannels(null, responseHandler);
+    }
+
+    public void retrieveUnreadPrivateMessageChannelCount(CountResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, null, ENDPOINT_USERS, "me", ENDPOINT_CHANNELS, "pm/num_unread"));
+    }
+
+    public void updateChannel(Channel channel, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        execute(new AppDotNetApiJsonRequest(responseHandler, METHOD_PUT, channel, queryParameters, ENDPOINT_CHANNELS, channel.getId()));
+    }
+
+    public void updateChannel(Channel channel, ChannelResponseHandler responseHandler) {
+        updateChannel(channel, null, responseHandler);
+    }
+
+    public void subscribeChannel(String channelId, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, METHOD_POST, queryParameters, ENDPOINT_CHANNELS, channelId, "subscribe"));
+    }
+
+    public void subscribeChannel(String channelId, ChannelResponseHandler responseHandler) {
+        subscribeChannel(channelId, null, responseHandler);
+    }
+
+    public void subscribeChannel(Channel channel, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        subscribeChannel(channel.getId(), queryParameters, responseHandler);
+    }
+
+    public void subscribeChannel(Channel channel, ChannelResponseHandler responseHandler) {
+        subscribeChannel(channel, null, responseHandler);
+    }
+
+    public void unsubscribeChannel(String channelId, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, METHOD_DELETE, queryParameters, ENDPOINT_CHANNELS, channelId, "subscribe"));
+    }
+
+    public void unsubscribeChannel(String channelId, ChannelResponseHandler responseHandler) {
+        unsubscribeChannel(channelId, null, responseHandler);
+    }
+
+    public void unsubscribeChannel(Channel channel, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        unsubscribeChannel(channel.getId(), queryParameters, responseHandler);
+    }
+
+    public void unsubscribeChannel(Channel channel, ChannelResponseHandler responseHandler) {
+        unsubscribeChannel(channel, null, responseHandler);
+    }
+
+    public void muteChannel(String channelId, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, METHOD_POST, queryParameters, ENDPOINT_CHANNELS, channelId, "mute"));
+    }
+
+    public void muteChannel(String channelId, ChannelResponseHandler responseHandler) {
+        muteChannel(channelId, null, responseHandler);
+    }
+
+    public void muteChannel(Channel channel, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        muteChannel(channel.getId(), queryParameters, responseHandler);
+    }
+
+    public void muteChannel(Channel channel, ChannelResponseHandler responseHandler) {
+        muteChannel(channel, null, responseHandler);
+    }
+
+    public void unmuteChannel(String channelId, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, METHOD_DELETE, queryParameters, ENDPOINT_CHANNELS, channelId, "mute"));
+    }
+
+    public void unmuteChannel(String channelId, ChannelResponseHandler responseHandler) {
+        unmuteChannel(channelId, null, responseHandler);
+    }
+
+    public void unmuteChannel(Channel channel, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        unmuteChannel(channel.getId(), queryParameters, responseHandler);
+    }
+
+    public void unmuteChannel(Channel channel, ChannelResponseHandler responseHandler) {
+        unmuteChannel(channel, null, responseHandler);
     }
 
     /*
