@@ -9,12 +9,12 @@ public abstract class Annotatable implements IAppDotNetObject {
     protected String id;
     protected ArrayList<Annotation> annotations;
 
-    protected Annotatable() {
-        annotations = new ArrayList<Annotation>();
-    }
-
     public String getId() {
         return id;
+    }
+
+    public boolean hasAnnotations() {
+        return annotations != null && annotations.size() > 0;
     }
 
     public ArrayList<Annotation> getAnnotations() {
@@ -26,10 +26,16 @@ public abstract class Annotatable implements IAppDotNetObject {
     }
 
     public boolean addAnnotation(Annotation annotation) {
+        if (annotations == null)
+            annotations = new ArrayList<Annotation>();
+
         return annotations.add(annotation);
     }
 
     public Annotation removeAnnotation(int index) {
+        if (annotations == null)
+            return null;
+
         return annotations.remove(index);
     }
 

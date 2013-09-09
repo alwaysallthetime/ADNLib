@@ -1,5 +1,7 @@
 package com.alwaysallthetime.adnlib.gson;
 
+import com.alwaysallthetime.adnlib.data.AbstractPost;
+import com.alwaysallthetime.adnlib.data.Annotatable;
 import com.alwaysallthetime.adnlib.data.Count;
 import com.alwaysallthetime.adnlib.data.IAppDotNetObject;
 import com.google.gson.FieldNamingPolicy;
@@ -10,20 +12,25 @@ import com.google.gson.JsonElement;
 import java.util.Date;
 
 public class AppDotNetGson {
+    static Gson adapterSafeInstance;
+
     private static Gson instance;
     private static Gson persistenceInstance;
 
     static {
-        instance = new GsonBuilder()
+        final GsonBuilder builder = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .registerTypeAdapter(Count.class, new CountDeserializer())
-                .registerTypeAdapter(Date.class, new Iso8601DateTypeAdapter())
+                .registerTypeAdapter(Date.class, new Iso8601DateTypeAdapter());
+
+        persistenceInstance = builder.create();
+
+        adapterSafeInstance = builder
                 .addSerializationExclusionStrategy(new IncludeFieldsByDefaultSerializationExclusionStrategy())
                 .create();
 
-        persistenceInstance = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .registerTypeAdapter(Date.class, new Iso8601DateTypeAdapter())
+        instance = builder
+                .registerTypeHierarchyAdapter(Annotatable.class, new AnnotatableSerializer())
+                .registerTypeAdapter(Count.class, new CountDeserializer())
                 .create();
     }
 
@@ -45,6 +52,16 @@ public class AppDotNetGson {
      */
     public static Gson getPersistenceInstance() {
         return persistenceInstance;
+    }
+
+    /**
+     * A Gson instance without certain customer adapters. This allows those adapters to get the "default" serialization
+     * before modifying it.
+     *
+     * @return a Gson instance
+     */
+    static Gson getAdapterSafeInstance() {
+        return adapterSafeInstance;
     }
 
     private static <T extends IAppDotNetObject> T copy(IAppDotNetObject object, Gson gson) {
