@@ -133,7 +133,6 @@ client.retrieveUser(userId, new QueryParameters(GeneralParameter.INCLUDE_ANNOTAT
 ### TODO
 - documentation
 - remainder of User and Post endpoints
-- Channels and Messages
 - Files
 - Places
 - WebView component for client-side authentication flow

@@ -5,7 +5,9 @@ import android.os.Build;
 
 import com.alwaysallthetime.adnlib.data.Annotatable;
 import com.alwaysallthetime.adnlib.data.Channel;
+import com.alwaysallthetime.adnlib.data.Message;
 import com.alwaysallthetime.adnlib.data.Post;
+import com.alwaysallthetime.adnlib.data.PrivateMessage;
 import com.alwaysallthetime.adnlib.data.User;
 import com.alwaysallthetime.adnlib.request.AppDotNetApiImageUploadRequest;
 import com.alwaysallthetime.adnlib.request.AppDotNetApiJsonRequest;
@@ -18,6 +20,7 @@ import com.alwaysallthetime.adnlib.response.ChannelResponseHandler;
 import com.alwaysallthetime.adnlib.response.CountResponseHandler;
 import com.alwaysallthetime.adnlib.response.LoginResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageListResponseHandler;
+import com.alwaysallthetime.adnlib.response.MessageResponseHandler;
 import com.alwaysallthetime.adnlib.response.PostResponseHandler;
 import com.alwaysallthetime.adnlib.response.TokenResponseHandler;
 import com.alwaysallthetime.adnlib.response.UserListResponseHandler;
@@ -449,18 +452,113 @@ public class AppDotNetClient {
     /*
      * MESSAGE
      */
-    public void retrieveMessages(String channelId, String sinceId, String beforeId, MessageListResponseHandler responseHandler) {
-        QueryParameters queryParameters = new QueryParameters();
-        queryParameters.put(GeneralParameter.INCLUDE_MACHINE);
-        if(sinceId != null) {
-            queryParameters.put("since_id", sinceId);
-        }
-        if(beforeId != null) {
-            queryParameters.put("before_id", beforeId);
-        }
+
+    public void retrieveMessagesInChannel(String channelId, QueryParameters queryParameters, MessageListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_CHANNELS, channelId, ENDPOINT_MESSAGES));
     }
 
+    public void retrieveMessagesInChannel(String channelId, MessageListResponseHandler responseHandler) {
+        retrieveMessagesInChannel(channelId, null, responseHandler);
+    }
+
+    public void retrieveMessagesInChannel(Channel channel, QueryParameters queryParameters, MessageListResponseHandler responseHandler) {
+        retrieveMessagesInChannel(channel.getId(), queryParameters, responseHandler);
+    }
+
+    public void retrieveMessagesInChannel(Channel channel, MessageListResponseHandler responseHandler) {
+        retrieveMessagesInChannel(channel, null, responseHandler);
+    }
+
+    public void createMessage(String channelId, Message message, QueryParameters queryParameters, MessageResponseHandler responseHandler) {
+        execute(new AppDotNetApiJsonRequest(responseHandler, message, queryParameters, ENDPOINT_CHANNELS, channelId, ENDPOINT_MESSAGES));
+    }
+
+    public void createMessage(String channelId, Message message, MessageResponseHandler responseHandler) {
+        createMessage(channelId, message, null, responseHandler);
+    }
+
+    public void createMessage(Channel channel, Message message, QueryParameters queryParameters, MessageResponseHandler responseHandler) {
+        createMessage(channel.getId(), message, queryParameters, responseHandler);
+    }
+
+    public void createMessage(Channel channel, Message message, MessageResponseHandler responseHandler) {
+        createMessage(channel, message, null, responseHandler);
+    }
+
+    public void createPrivateMessage(PrivateMessage message, QueryParameters queryParameters, MessageResponseHandler responseHandler) {
+        if (message.getDestinations() == null)
+            throw new IllegalArgumentException("private message must specify destinations");
+
+        createMessage("pm", message, queryParameters, responseHandler);
+    }
+
+    public void createPrivateMessage(PrivateMessage message, MessageResponseHandler responseHandler) {
+        createPrivateMessage(message, null, responseHandler);
+    }
+
+    public void retrieveMessage(String channelId, String messageId, QueryParameters queryParameters, MessageResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_CHANNELS, channelId, ENDPOINT_MESSAGES, messageId));
+    }
+
+    public void retrieveMessage(String channelId, String messageId, MessageResponseHandler responseHandler) {
+        retrieveMessage(channelId, messageId, null, responseHandler);
+    }
+
+    public void retrieveMessage(Channel channel, String messageId, QueryParameters queryParameters, MessageResponseHandler responseHandler) {
+        retrieveMessage(channel.getId(), messageId, queryParameters, responseHandler);
+    }
+
+    public void retrieveMessage(Channel channel, String messageId, MessageResponseHandler responseHandler) {
+        retrieveMessage(channel, messageId, null, responseHandler);
+    }
+
+    protected void retrieveMessages(String messageIds, QueryParameters queryParameters, MessageListResponseHandler responseHandler) {
+        if (queryParameters == null)
+            queryParameters = new QueryParameters();
+
+        queryParameters.put("ids", messageIds);
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_CHANNELS, ENDPOINT_MESSAGES));
+    }
+
+    public void retrieveMessagesById(List<String> messageIds, QueryParameters queryParameters, MessageListResponseHandler responseHandler) {
+        retrieveMessages(getIdString(messageIds), queryParameters, responseHandler);
+    }
+
+    public void retrieveMessagesById(List<String> messageIds, MessageListResponseHandler responseHandler) {
+        retrieveMessagesById(messageIds, null, responseHandler);
+    }
+
+    public void retrieveMessages(List<Message> messages, QueryParameters queryParameters, MessageListResponseHandler responseHandler) {
+        retrieveMessages(getObjectIdString(messages), queryParameters, responseHandler);
+    }
+
+    public void retrieveMessages(List<Message> messages, MessageListResponseHandler responseHandler) {
+        retrieveMessages(messages, null, responseHandler);
+    }
+
+    public void retrieveCurrentUserMessages(QueryParameters queryParameters, MessageListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, "me", ENDPOINT_MESSAGES));
+    }
+
+    public void retrieveCurrentUserMessages(MessageListResponseHandler responseHandler) {
+        retrieveCurrentUserMessages(null, responseHandler);
+    }
+
+    public void deleteMessage(String channelId, String messageId, QueryParameters queryParameters, MessageResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, METHOD_DELETE, queryParameters, ENDPOINT_CHANNELS, channelId, ENDPOINT_MESSAGES, messageId));
+    }
+
+    public void deleteMessage(String channelId, String messageId, MessageResponseHandler responseHandler) {
+        deleteMessage(channelId, messageId, null, responseHandler);
+    }
+
+    public void deleteMessage(Message message, QueryParameters queryParameters, MessageResponseHandler responseHandler) {
+        deleteMessage(message.getChannelId(), message.getId(), queryParameters, responseHandler);
+    }
+
+    public void deleteMessage(Message message, MessageResponseHandler responseHandler) {
+        deleteMessage(message, null, responseHandler);
+    }
 
     /*
      * TOKEN
