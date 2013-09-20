@@ -365,6 +365,22 @@ public class AppDotNetClient {
         retrieveChannels(channels, null, responseHandler);
     }
 
+    public void retrieveChannels(QueryParameters queryParameters, ChannelListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_CHANNELS, "search"));
+    }
+
+    public void retrieveChannelsWithSearchQuery(String query, ChannelListResponseHandler responseHandler) {
+        retrieveChannelsWithSearchQuery(query, null, responseHandler);
+    }
+
+    public void retrieveChannelsWithSearchQuery(String query, QueryParameters queryParameters, ChannelListResponseHandler responseHandler) {
+        if (queryParameters == null)
+            queryParameters = new QueryParameters();
+
+        queryParameters.put("text", query);
+        retrieveChannels(queryParameters, responseHandler);
+    }
+
     public void retrieveCurrentUserChannels(QueryParameters queryParameters, ChannelListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, "me", ENDPOINT_CHANNELS));
     }
