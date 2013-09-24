@@ -377,7 +377,7 @@ public class AppDotNetClient {
         if (queryParameters == null)
             queryParameters = new QueryParameters();
 
-        queryParameters.put("text", query);
+        queryParameters.put("q", query);
         retrieveChannels(queryParameters, responseHandler);
     }
 
