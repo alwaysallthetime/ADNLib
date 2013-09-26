@@ -3,6 +3,7 @@ package com.alwaysallthetime.adnlib.data;
 import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Annotatable implements IAppDotNetObject {
     @Expose(serialize = false)
@@ -41,5 +42,28 @@ public abstract class Annotatable implements IAppDotNetObject {
 
     public void clearAnnotations() {
         annotations = null;
+    }
+
+    public Annotation getFirstAnnotationOfType(String annotationType) {
+        if(annotations != null) {
+            for(Annotation a : annotations) {
+                if(a.getType().equals(annotationType)) {
+                    return a;
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<Annotation> getAnnotationsOfType(String annotationType) {
+        ArrayList<Annotation> typedAnnotations = new ArrayList<Annotation>();
+        if(annotations != null) {
+            for(Annotation a : annotations) {
+                if(a.getType().equals(annotationType)) {
+                    typedAnnotations.add(a);
+                }
+            }
+        }
+        return typedAnnotations;
     }
 }
