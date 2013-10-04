@@ -8,7 +8,11 @@ public class QueryParameters extends HashMap<String, String> {
     private static final float LOAD_FACTOR = 1.0f;
 
     public QueryParameters() {
-        super(INITIAL_CAPACITY, LOAD_FACTOR);
+        this(INITIAL_CAPACITY, LOAD_FACTOR);
+    }
+
+    protected QueryParameters(int capacity, float loadFactor) {
+        super(capacity, loadFactor);
     }
 
     public QueryParameters(IQueryParameter... queryParameters) {

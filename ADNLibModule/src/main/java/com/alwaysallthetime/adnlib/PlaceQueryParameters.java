@@ -1,6 +1,14 @@
 package com.alwaysallthetime.adnlib;
 
 public class PlaceQueryParameters extends QueryParameters {
+    // maximum number of parameters for a Place search
+    private static final int INITIAL_CAPACITY = 9;
+    private static final float LOAD_FACTOR = 1.0f;
+
+    public PlaceQueryParameters() {
+        super(INITIAL_CAPACITY, LOAD_FACTOR);
+    }
+
     public void setLatitude(double latitude) {
         put("latitude", String.valueOf(latitude));
     }
