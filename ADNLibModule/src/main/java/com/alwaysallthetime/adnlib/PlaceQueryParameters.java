@@ -34,6 +34,6 @@ public class PlaceQueryParameters extends QueryParameters {
     }
 
     public void setVerticalAccuracy(float accuracy) {
-        put("verticalAccuracy", String.valueOf(accuracy));
+        put("vertical_accuracy", String.valueOf(accuracy));
     }
 }
