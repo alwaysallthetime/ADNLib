@@ -21,6 +21,8 @@ import com.alwaysallthetime.adnlib.response.CountResponseHandler;
 import com.alwaysallthetime.adnlib.response.LoginResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageListResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageResponseHandler;
+import com.alwaysallthetime.adnlib.response.PlaceListResponseHandler;
+import com.alwaysallthetime.adnlib.response.PlaceResponseHandler;
 import com.alwaysallthetime.adnlib.response.PostResponseHandler;
 import com.alwaysallthetime.adnlib.response.TokenResponseHandler;
 import com.alwaysallthetime.adnlib.response.UserListResponseHandler;
@@ -46,6 +48,7 @@ public class AppDotNetClient {
     protected static final String ENDPOINT_POSTS = "posts";
     protected static final String ENDPOINT_CHANNELS = "channels";
     protected static final String ENDPOINT_MESSAGES = "messages";
+    protected static final String ENDPOINT_PLACES = "places";
 
     protected String authHeader;
     protected String languageHeader;
@@ -574,6 +577,18 @@ public class AppDotNetClient {
 
     public void deleteMessage(Message message, MessageResponseHandler responseHandler) {
         deleteMessage(message, null, responseHandler);
+    }
+
+    /*
+     * PLACE
+     */
+
+    public void retrievePlace(String factualId, PlaceResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, null, ENDPOINT_PLACES, factualId));
+    }
+
+    public void retrievePlacesWithSearchQuery(PlaceQueryParameters queryParameters, PlaceListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_PLACES, "search"));
     }
 
     /*
