@@ -9,6 +9,16 @@ public class PlaceQueryParameters extends QueryParameters {
         super(INITIAL_CAPACITY, LOAD_FACTOR);
     }
 
+    public PlaceQueryParameters(double latitude, double longitude) {
+        setLatitude(latitude);
+        setLongitude(longitude);
+    }
+
+    public PlaceQueryParameters(double latitude, double longitude, String query) {
+        this(latitude, longitude);
+        setQuery(query);
+    }
+
     public void setLatitude(double latitude) {
         put("latitude", String.valueOf(latitude));
     }
