@@ -18,6 +18,7 @@ import com.alwaysallthetime.adnlib.response.AccessTokenResponseHandler;
 import com.alwaysallthetime.adnlib.response.ChannelListResponseHandler;
 import com.alwaysallthetime.adnlib.response.ChannelResponseHandler;
 import com.alwaysallthetime.adnlib.response.CountResponseHandler;
+import com.alwaysallthetime.adnlib.response.FileListResponseHandler;
 import com.alwaysallthetime.adnlib.response.LoginResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageListResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageResponseHandler;
@@ -49,6 +50,7 @@ public class AppDotNetClient {
     protected static final String ENDPOINT_CHANNELS = "channels";
     protected static final String ENDPOINT_MESSAGES = "messages";
     protected static final String ENDPOINT_PLACES = "places";
+    protected static final String ENDPOINT_FILES = "files";
 
     protected String authHeader;
     protected String languageHeader;
@@ -589,6 +591,17 @@ public class AppDotNetClient {
 
     public void retrievePlacesWithSearchQuery(PlaceQueryParameters queryParameters, PlaceListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_PLACES, "search"));
+    }
+
+    /*
+     * FILE
+     */
+    public void retrieveCurrentUserFiles(FileListResponseHandler responseHandler) {
+        retrieveCurrentUserFiles(null, responseHandler);
+    }
+
+    public void retrieveCurrentUserFiles(QueryParameters queryParameters, FileListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, "me", ENDPOINT_FILES));
     }
 
     /*
