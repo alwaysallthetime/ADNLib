@@ -6,27 +6,52 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 
 public class File extends Annotatable {
+    @Expose(serialize = false)
     private boolean complete;
+    @Expose(serialize = false)
     private String createdAt;
+    @Expose(serialize = false)
     private Map<String, DerivedFile> derivedFiles;
+    @Expose(serialize = false)
     private String fileToken;
+    @Expose(serialize = false)
     private boolean fileTokenRead;
+    @Expose(serialize = false)
     private ImageInfo imageInfo;
     private String kind;
+    @Expose(serialize = false)
     private String mimeType;
     private String name;
     @SerializedName("public")
     private boolean isPublic;
+    @Expose(serialize = false)
     private String sha1;
+    @Expose(serialize = false)
     private int size;
+    @Expose(serialize = false)
     private Source source;
+    @Expose(serialize = false)
     private int totalSize;
     private String type;
+    @Expose(serialize = false)
     private String url;
+    @Expose(serialize = false)
     private String urlExpires;
+    @Expose(serialize = false)
     private String urlPermanent;
+    @Expose(serialize = false)
     private String urlShort;
+    @Expose(serialize = false)
     private User user;
+
+    public File() {}
+
+    public File(String kind, String type, String name, boolean isPublic) {
+        this.kind = kind;
+        this.type = type;
+        this.name = name;
+        this.isPublic = isPublic;
+    }
 
     public boolean isComplete() {
         return complete;
