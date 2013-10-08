@@ -24,6 +24,8 @@ public class Channel extends Annotatable {
     private String recentMessageId;
     @Expose(serialize = false)
     private Message recentMessage;
+    @Expose(serialize = false)
+    private StreamMarker marker;
 
     public Channel(String type, boolean immutable) {
         this.type = type;
@@ -109,6 +111,10 @@ public class Channel extends Annotatable {
 
     public Message getRecentMessage() {
         return recentMessage;
+    }
+
+    public StreamMarker getMarker() {
+        return marker;
     }
 
     private static class Counts {
