@@ -8,6 +8,8 @@ import com.alwaysallthetime.adnlib.data.Channel;
 import com.alwaysallthetime.adnlib.data.Message;
 import com.alwaysallthetime.adnlib.data.Post;
 import com.alwaysallthetime.adnlib.data.PrivateMessage;
+import com.alwaysallthetime.adnlib.data.StreamMarker;
+import com.alwaysallthetime.adnlib.data.StreamMarkerList;
 import com.alwaysallthetime.adnlib.data.User;
 import com.alwaysallthetime.adnlib.request.AppDotNetApiImageUploadRequest;
 import com.alwaysallthetime.adnlib.request.AppDotNetApiJsonRequest;
@@ -24,6 +26,8 @@ import com.alwaysallthetime.adnlib.response.MessageResponseHandler;
 import com.alwaysallthetime.adnlib.response.PlaceListResponseHandler;
 import com.alwaysallthetime.adnlib.response.PlaceResponseHandler;
 import com.alwaysallthetime.adnlib.response.PostResponseHandler;
+import com.alwaysallthetime.adnlib.response.StreamMarkerListResponseHandler;
+import com.alwaysallthetime.adnlib.response.StreamMarkerResponseHandler;
 import com.alwaysallthetime.adnlib.response.TokenResponseHandler;
 import com.alwaysallthetime.adnlib.response.UserListResponseHandler;
 import com.alwaysallthetime.adnlib.response.UserResponseHandler;
@@ -589,6 +593,18 @@ public class AppDotNetClient {
 
     public void retrievePlacesWithSearchQuery(PlaceQueryParameters queryParameters, PlaceListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_PLACES, "search"));
+    }
+
+    /*
+     * STREAM MARKER
+     */
+
+    public void updateStreamMarker(StreamMarker streamMarker, StreamMarkerResponseHandler responseHandler) {
+        execute(new AppDotNetApiJsonRequest(responseHandler, streamMarker, null, ENDPOINT_POSTS, "marker"));
+    }
+
+    public void updateStreamMarkers(StreamMarkerList streamMarkers, StreamMarkerListResponseHandler responseHandler) {
+        execute(new AppDotNetApiJsonRequest(responseHandler, streamMarkers, null, ENDPOINT_POSTS, "marker"));
     }
 
     /*
