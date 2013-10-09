@@ -1,5 +1,8 @@
 package com.alwaysallthetime.adnlib;
 
+/**
+ * See https://github.com/appdotnet/object-metadata/tree/master/annotations
+ */
 public class Annotations {
 
     /*
