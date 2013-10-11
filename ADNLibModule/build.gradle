@@ -22,6 +22,6 @@ android {
     }
 }
 
-dependencies {
-    compile files('libs/gson-2.2.4.jar')
+dependencies {    
+    compile 'com.google.code.gson:gson:2.2.4'
 }
