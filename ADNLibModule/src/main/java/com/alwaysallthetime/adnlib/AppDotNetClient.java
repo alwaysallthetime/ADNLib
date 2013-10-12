@@ -19,6 +19,7 @@ import com.alwaysallthetime.adnlib.request.AppDotNetRequest;
 import com.alwaysallthetime.adnlib.response.AccessTokenResponseHandler;
 import com.alwaysallthetime.adnlib.response.ChannelListResponseHandler;
 import com.alwaysallthetime.adnlib.response.ChannelResponseHandler;
+import com.alwaysallthetime.adnlib.response.ConfigurationResponseHandler;
 import com.alwaysallthetime.adnlib.response.CountResponseHandler;
 import com.alwaysallthetime.adnlib.response.FileListResponseHandler;
 import com.alwaysallthetime.adnlib.response.LoginResponseHandler;
@@ -55,6 +56,7 @@ public class AppDotNetClient {
     protected static final String ENDPOINT_MESSAGES = "messages";
     protected static final String ENDPOINT_PLACES = "places";
     protected static final String ENDPOINT_FILES = "files";
+    protected static final String ENDPOINT_CONFIGURATION = "config";
 
     protected String authHeader;
     protected String languageHeader;
@@ -628,6 +630,13 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, null, "token"));
     }
 
+    /*
+     * CONFIGURATION
+     */
+
+    public void retrieveConfiguration(ConfigurationResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, null, ENDPOINT_CONFIGURATION));
+    }
 
     /*
      * MISC
