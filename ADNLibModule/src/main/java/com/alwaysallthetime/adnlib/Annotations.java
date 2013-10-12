@@ -34,5 +34,13 @@ public class Annotations {
     /*
      * THIRD PARTY
      */
+    public static final String CAPTURE_INFO = "com.alwaysallthetime.capture_info";
     public static final String OHAI_DISPLAY_DATE = "net.app.ohai.displaydate";
+    public static final String OHAI_LOCATION = "net.app.ohai.location";
+    public static final String PATTER_SETTINGS = "net.patter-app.settings";
+    public static final String QUESTION_POLL = "net.questionapp.poll";
+    public static final String XMPP_PRESENCE = "org.xmpp.presence";
+    public static final String YAWP_CLIENT = "com.pilgrimagesoftware.yawp.client";
+    public static final String YAWP_TOPIC = "com.pilgrimagesoftware.yawp.topic";
+
 }
