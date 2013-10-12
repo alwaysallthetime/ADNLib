@@ -34,5 +34,5 @@ public class Annotations {
     /*
      * THIRD PARTY
      */
-    public static final String OHAI_DATE = "net.app.ohai.displaydate";
+    public static final String OHAI_DISPLAY_DATE = "net.app.ohai.displaydate";
 }
