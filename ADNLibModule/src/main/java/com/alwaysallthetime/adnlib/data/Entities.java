@@ -63,23 +63,23 @@ public class Entities {
         @Expose(serialize = false)
         private boolean isLeading;
 
-        String getName() {
+        public String getName() {
             return name;
         }
 
-        String getId() {
+        public String getId() {
             return id;
         }
 
-        int getPos() {
+        public int getPos() {
             return pos;
         }
 
-        int getLen() {
+        public int getLen() {
             return len;
         }
 
-        boolean isLeading() {
+        public boolean isLeading() {
             return isLeading;
         }
     }
@@ -89,15 +89,15 @@ public class Entities {
         private int pos;
         private int len;
 
-        String getName() {
+        public String getName() {
             return name;
         }
 
-        int getPos() {
+        public int getPos() {
             return pos;
         }
 
-        int getLen() {
+        public int getLen() {
             return len;
         }
     }
@@ -111,23 +111,23 @@ public class Entities {
         @Expose(serialize = false)
         private int amendedLen;
 
-        String getText() {
+        public String getText() {
             return text;
         }
 
-        String getUrl() {
+        public String getUrl() {
             return url;
         }
 
-        int getPos() {
+        public int getPos() {
             return pos;
         }
 
-        int getLen() {
+        public int getLen() {
             return len;
         }
 
-        int getAmendedLen() {
+        public int getAmendedLen() {
             return amendedLen;
         }
     }
