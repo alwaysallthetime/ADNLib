@@ -53,7 +53,7 @@ public class Entities {
         this.parseLinks = parseLinks;
     }
 
-    static class Mention {
+    public static class Mention {
         private String name;
         private String id;
         @Expose(serialize = false)
@@ -84,7 +84,7 @@ public class Entities {
         }
     }
 
-    static class Hashtag {
+    public static class Hashtag {
         private String name;
         private int pos;
         private int len;
@@ -102,7 +102,7 @@ public class Entities {
         }
     }
 
-    static class Link {
+    public static class Link {
         @Expose(serialize = false)
         private String text;
         private String url;
