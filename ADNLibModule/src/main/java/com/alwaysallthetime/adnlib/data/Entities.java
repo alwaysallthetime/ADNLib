@@ -91,7 +91,9 @@ public class Entities {
 
     public static class Hashtag extends Entity {
         private String name;
+        @Expose(serialize = false)
         private int pos;
+        @Expose(serialize = false)
         private int len;
 
         public String getName() {
