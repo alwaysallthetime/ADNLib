@@ -625,6 +625,30 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, "me", ENDPOINT_FILES));
     }
 
+    public void retrieveFiles(List<File> files, FileListResponseHandler responseHandler) {
+        retrieveFiles(files, null, responseHandler);
+    }
+
+    public void retrieveFiles(List<File> files, QueryParameters queryParameters, FileListResponseHandler responseHandler) {
+        retrieveFiles(getObjectIdString(files), queryParameters, responseHandler);
+    }
+
+    public void retrieveFilesById(List<String> fileIds, FileListResponseHandler responseHandler) {
+        retrieveFilesById(fileIds, null, responseHandler);
+    }
+
+    public void retrieveFilesById(List<String> fileIds, QueryParameters queryParameters, FileListResponseHandler responseHandler) {
+        retrieveFiles(getIdString(fileIds), queryParameters, responseHandler);
+    }
+
+    protected void retrieveFiles(String fileIds, QueryParameters queryParameters, FileListResponseHandler responseHandler) {
+        if (queryParameters == null)
+            queryParameters = new QueryParameters();
+
+        queryParameters.put("ids", fileIds);
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_FILES));
+    }
+
     public void createFile(File file, byte[] fileData, String mimeType, FileResponseHandler responseHandler) {
         execute(new AppDotNetApiFileUploadRequest(responseHandler, file, fileData, mimeType, ENDPOINT_FILES));
     }
