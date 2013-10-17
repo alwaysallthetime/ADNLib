@@ -28,6 +28,7 @@ public class AppDotNetApiImageUploadRequest extends AppDotNetApiUploadRequest {
 
         writeBoundary(streamWriter);
         streamWriter.write(String.format(CONTENT_DISPOSITION_HEADER_WITH_FILENAME, bodyFilename, bodyFilename));
+        streamWriter.write("\r\n");
         streamWriter.flush();
 
         outputStream.write(bodyBytes, bodyOffset, bodyCount);
