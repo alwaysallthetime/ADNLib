@@ -629,6 +629,10 @@ public class AppDotNetClient {
         execute(new AppDotNetApiFileUploadRequest(responseHandler, file, fileData, mimeType, ENDPOINT_FILES));
     }
 
+    public void deleteFile(String fileId, FileResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, METHOD_DELETE, null, ENDPOINT_FILES, fileId));
+    }
+
     /*
      * TOKEN
      */
