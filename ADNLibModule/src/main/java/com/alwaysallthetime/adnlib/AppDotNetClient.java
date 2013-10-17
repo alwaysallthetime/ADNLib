@@ -5,12 +5,14 @@ import android.os.Build;
 
 import com.alwaysallthetime.adnlib.data.Annotatable;
 import com.alwaysallthetime.adnlib.data.Channel;
+import com.alwaysallthetime.adnlib.data.File;
 import com.alwaysallthetime.adnlib.data.Message;
 import com.alwaysallthetime.adnlib.data.Post;
 import com.alwaysallthetime.adnlib.data.PrivateMessage;
 import com.alwaysallthetime.adnlib.data.StreamMarker;
 import com.alwaysallthetime.adnlib.data.StreamMarkerList;
 import com.alwaysallthetime.adnlib.data.User;
+import com.alwaysallthetime.adnlib.request.AppDotNetApiFileUploadRequest;
 import com.alwaysallthetime.adnlib.request.AppDotNetApiImageUploadRequest;
 import com.alwaysallthetime.adnlib.request.AppDotNetApiJsonRequest;
 import com.alwaysallthetime.adnlib.request.AppDotNetApiRequest;
@@ -22,6 +24,7 @@ import com.alwaysallthetime.adnlib.response.ChannelResponseHandler;
 import com.alwaysallthetime.adnlib.response.ConfigurationResponseHandler;
 import com.alwaysallthetime.adnlib.response.CountResponseHandler;
 import com.alwaysallthetime.adnlib.response.FileListResponseHandler;
+import com.alwaysallthetime.adnlib.response.FileResponseHandler;
 import com.alwaysallthetime.adnlib.response.LoginResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageListResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageResponseHandler;
@@ -620,6 +623,10 @@ public class AppDotNetClient {
 
     public void retrieveCurrentUserFiles(QueryParameters queryParameters, FileListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, "me", ENDPOINT_FILES));
+    }
+
+    public void createFile(File file, byte[] fileData, String mimeType, FileResponseHandler responseHandler) {
+        execute(new AppDotNetApiFileUploadRequest(responseHandler, file, fileData, mimeType, ENDPOINT_FILES));
     }
 
     /*
