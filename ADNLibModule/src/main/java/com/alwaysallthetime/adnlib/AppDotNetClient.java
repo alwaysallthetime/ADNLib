@@ -312,6 +312,34 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS));
     }
 
+    public void retrievePostsForUser(User user, PostListResponseHandler responseHandler) {
+        retrievePostsForUser(user.getId(), null, responseHandler);
+    }
+
+    public void retrievePostsForUser(User user, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrievePostsForUser(user.getId(), queryParameters, responseHandler);
+    }
+
+    public void retrievePostsForUserId(String userId, PostListResponseHandler responseHandler) {
+        retrievePostsForUser(userId, null, responseHandler);
+    }
+
+    public void retrievePostsForUserId(String userId, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrievePostsForUser(userId, queryParameters, responseHandler);
+    }
+
+    public void retrievePostsForCurrentUser(PostListResponseHandler responseHandler) {
+        retrievePostsForUser("me", null, responseHandler);
+    }
+
+    public void retrievePostsForCurrentUser(QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrievePostsForUser("me", queryParameters, responseHandler);
+    }
+
+    protected void retrievePostsForUser(String userString, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userString, ENDPOINT_POSTS));
+    }
+
     public void deletePost(String postId, QueryParameters queryParameters, PostResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, METHOD_DELETE, queryParameters, ENDPOINT_POSTS, postId));
     }
