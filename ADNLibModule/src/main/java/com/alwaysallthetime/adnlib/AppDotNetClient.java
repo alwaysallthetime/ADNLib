@@ -30,6 +30,7 @@ import com.alwaysallthetime.adnlib.response.MessageListResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageResponseHandler;
 import com.alwaysallthetime.adnlib.response.PlaceListResponseHandler;
 import com.alwaysallthetime.adnlib.response.PlaceResponseHandler;
+import com.alwaysallthetime.adnlib.response.PostListResponseHandler;
 import com.alwaysallthetime.adnlib.response.PostResponseHandler;
 import com.alwaysallthetime.adnlib.response.StreamMarkerListResponseHandler;
 import com.alwaysallthetime.adnlib.response.StreamMarkerResponseHandler;
@@ -285,6 +286,30 @@ public class AppDotNetClient {
 
     public void retrievePost(String postId, PostResponseHandler responseHandler) {
         retrievePost(postId, null, responseHandler);
+    }
+
+    public void retrievePosts(List<Post> posts, PostListResponseHandler responseHandler) {
+        retrievePosts(posts, null, responseHandler);
+    }
+
+    public void retrievePosts(List<Post> posts, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrievePosts(getObjectIdString(posts), queryParameters, responseHandler);
+    }
+
+    public void retrievePostsById(List<String> postIds, PostListResponseHandler responseHandler) {
+        retrievePostsById(postIds, null, responseHandler);
+    }
+
+    public void retrievePostsById(List<String> postIds, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrievePosts(getIdString(postIds), queryParameters, responseHandler);
+    }
+
+    protected void retrievePosts(String postIds, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        if(queryParameters == null)
+            queryParameters = new QueryParameters();
+
+        queryParameters.put("ids", postIds);
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS));
     }
 
     public void deletePost(String postId, QueryParameters queryParameters, PostResponseHandler responseHandler) {
