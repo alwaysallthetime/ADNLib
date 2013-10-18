@@ -57,6 +57,7 @@ public class AppDotNetClient {
     protected static final String ENDPOINT_USERS = "users";
     protected static final String ENDPOINT_POSTS = "posts";
     protected static final String ENDPOINT_STARS = "stars";
+    protected static final String ENDPOINT_MENTIONS = "mentions";
     protected static final String ENDPOINT_CHANNELS = "channels";
     protected static final String ENDPOINT_MESSAGES = "messages";
     protected static final String ENDPOINT_PLACES = "places";
@@ -367,6 +368,34 @@ public class AppDotNetClient {
 
     protected void retrieveStarredPostsForUser(String userString, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userString, ENDPOINT_STARS));
+    }
+
+    public void retrievePostsMentioningUser(User user, PostListResponseHandler responseHandler) {
+        retrievePostsMentioningUser(user.getId(), null, responseHandler);
+    }
+
+    public void retrievePostsMentioningUser(User user, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrievePostsMentioningUser(user.getId(), queryParameters, responseHandler);
+    }
+
+    public void retrievePostsMentioningUserWithId(String userId, PostListResponseHandler responseHandler) {
+        retrievePostsMentioningUser(userId, null, responseHandler);
+    }
+
+    public void retrievePostsMentioningUserWithId(String userId, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrievePostsMentioningUser(userId, queryParameters, responseHandler);
+    }
+
+    public void retrievePostsMentioningCurrentUser(PostListResponseHandler responseHandler) {
+        retrievePostsMentioningUser("me", null, responseHandler);
+    }
+
+    public void retrievePostsMentioningCurrentUser(QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrievePostsMentioningUser("me", queryParameters, responseHandler);
+    }
+
+    protected void retrievePostsMentioningUser(String userString, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userString, ENDPOINT_MENTIONS));
     }
 
     public void deletePost(String postId, QueryParameters queryParameters, PostResponseHandler responseHandler) {
