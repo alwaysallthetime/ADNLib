@@ -5,6 +5,7 @@ import android.os.Build;
 
 import com.alwaysallthetime.adnlib.data.Annotatable;
 import com.alwaysallthetime.adnlib.data.Channel;
+import com.alwaysallthetime.adnlib.data.Entities;
 import com.alwaysallthetime.adnlib.data.File;
 import com.alwaysallthetime.adnlib.data.Message;
 import com.alwaysallthetime.adnlib.data.Post;
@@ -396,6 +397,22 @@ public class AppDotNetClient {
 
     protected void retrievePostsMentioningUser(String userString, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userString, ENDPOINT_MENTIONS));
+    }
+
+    public void retrievePostsWithHashtag(Entities.Hashtag hashtag, PostListResponseHandler responseHandler) {
+        retrievePostsWithHashtag(hashtag.getName(), null, responseHandler);
+    }
+
+    public void retrievePostsWithHashtag(Entities.Hashtag hashtag, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrievePostsWithHashtag(hashtag.getName(), queryParameters, responseHandler);
+    }
+
+    public void retrievePostsWithHashtag(String hashtag, PostListResponseHandler responseHandler) {
+        retrievePostsWithHashtag(hashtag, null, responseHandler);
+    }
+
+    public void retrievePostsWithHashtag(String hashtag, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, "tag", hashtag));
     }
 
     public void deletePost(String postId, QueryParameters queryParameters, PostResponseHandler responseHandler) {
