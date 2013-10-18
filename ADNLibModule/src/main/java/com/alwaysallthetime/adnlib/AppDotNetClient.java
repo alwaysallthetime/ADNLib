@@ -56,6 +56,7 @@ public class AppDotNetClient {
     protected static final int ID_LENGTH = 10; // max string length of object ID including delimiter
     protected static final String ENDPOINT_USERS = "users";
     protected static final String ENDPOINT_POSTS = "posts";
+    protected static final String ENDPOINT_STARS = "stars";
     protected static final String ENDPOINT_CHANNELS = "channels";
     protected static final String ENDPOINT_MESSAGES = "messages";
     protected static final String ENDPOINT_PLACES = "places";
@@ -338,6 +339,34 @@ public class AppDotNetClient {
 
     protected void retrievePostsForUser(String userString, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userString, ENDPOINT_POSTS));
+    }
+
+    public void retrieveStarredPostsForUser(User user, PostListResponseHandler responseHandler) {
+        retrieveStarredPostsForUser(user.getId(), null, responseHandler);
+    }
+
+    public void retrieveStarredPostsForUser(User user, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrieveStarredPostsForUser(user.getId(), queryParameters, responseHandler);
+    }
+
+    public void retrieveStarredPostsForUserId(String userId, PostListResponseHandler responseHandler) {
+        retrieveStarredPostsForUser(userId, null, responseHandler);
+    }
+
+    public void retrieveStarredPostsForUserId(String userId, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrieveStarredPostsForUser(userId, queryParameters, responseHandler);
+    }
+
+    public void retrieveStarredPostsForCurrentUser(PostListResponseHandler responseHandler) {
+        retrieveStarredPostsForUser("me", null, responseHandler);
+    }
+
+    public void retrieveStarredPostsForCurrentUser(QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrieveStarredPostsForUser("me", queryParameters, responseHandler);
+    }
+
+    protected void retrieveStarredPostsForUser(String userString, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userString, ENDPOINT_STARS));
     }
 
     public void deletePost(String postId, QueryParameters queryParameters, PostResponseHandler responseHandler) {
