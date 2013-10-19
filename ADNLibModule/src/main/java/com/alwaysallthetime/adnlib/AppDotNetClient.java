@@ -272,7 +272,7 @@ public class AppDotNetClient {
     }
 
     /*
-     * POST
+     * POST - CREATION
      */
 
     public void createPost(Post post, QueryParameters queryParameters, PostResponseHandler responseHandler) {
@@ -282,6 +282,10 @@ public class AppDotNetClient {
     public void createPost(Post post, PostResponseHandler responseHandler) {
         createPost(post, null, responseHandler);
     }
+
+    /*
+     * POST - RETRIEVAL BY ID
+     */
 
     public void retrievePost(String postId, QueryParameters queryParameters, PostResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, postId));
@@ -315,6 +319,10 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS));
     }
 
+    /*
+     * POST - RETRIEVAL BY USER
+     */
+
     public void retrievePostsForUser(User user, PostListResponseHandler responseHandler) {
         retrievePostsForUser(user.getId(), null, responseHandler);
     }
@@ -342,6 +350,10 @@ public class AppDotNetClient {
     protected void retrievePostsForUser(String userString, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userString, ENDPOINT_POSTS));
     }
+
+    /*
+     * POST - RETRIEVE STARS
+     */
 
     public void retrieveStarredPostsForUser(User user, PostListResponseHandler responseHandler) {
         retrieveStarredPostsForUser(user.getId(), null, responseHandler);
@@ -371,6 +383,10 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userString, ENDPOINT_STARS));
     }
 
+    /*
+     * POST - RETRIEVE MENTIONS
+     */
+
     public void retrievePostsMentioningUser(User user, PostListResponseHandler responseHandler) {
         retrievePostsMentioningUser(user.getId(), null, responseHandler);
     }
@@ -399,6 +415,10 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userString, ENDPOINT_MENTIONS));
     }
 
+    /*
+     * POST - RETRIEVE BY HASHTAG
+     */
+
     public void retrievePostsWithHashtag(Entities.Hashtag hashtag, PostListResponseHandler responseHandler) {
         retrievePostsWithHashtag(hashtag.getName(), null, responseHandler);
     }
@@ -414,6 +434,10 @@ public class AppDotNetClient {
     public void retrievePostsWithHashtag(String hashtag, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, "tag", hashtag));
     }
+
+    /*
+     * POST - RETRIEVE REPLIES
+     */
 
     public void retrieveRepliesToPost(Post post, PostListResponseHandler responseHandler) {
         retrieveRepliesToPost(post.getId(), null, responseHandler);
@@ -435,9 +459,17 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, METHOD_DELETE, queryParameters, ENDPOINT_POSTS, postId));
     }
 
+    /*
+     * POST - DELETION
+     */
+
     public void deletePost(String postId, PostResponseHandler responseHandler) {
         deletePost(postId, null, responseHandler);
     }
+
+    /*
+     * POST - REPOST
+     */
 
     public void repostPost(String postId, QueryParameters queryParameters, PostResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, METHOD_POST, queryParameters, ENDPOINT_POSTS, postId, "repost"));
@@ -454,6 +486,10 @@ public class AppDotNetClient {
     public void unrepostPost(String postId, PostResponseHandler responseHandler) {
         unrepostPost(postId, null, responseHandler);
     }
+
+    /*
+     * POST - STAR
+     */
 
     public void starPost(String postId, QueryParameters queryParameters, PostResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, METHOD_POST, queryParameters, ENDPOINT_POSTS, postId, "star"));
