@@ -520,6 +520,18 @@ public class AppDotNetClient {
     }
 
     /*
+     * POST - UNIFIED STREAM
+     */
+
+    public void retrieveUnifiedStream(PostListResponseHandler responseHandler) {
+        retrieveUnifiedStream(null, responseHandler);
+    }
+
+    public void retrieveUnifiedStream(QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, "stream", "unified"));
+    }
+
+    /*
      * CHANNEL
      */
 
