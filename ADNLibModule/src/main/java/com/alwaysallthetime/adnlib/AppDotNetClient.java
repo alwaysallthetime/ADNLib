@@ -415,6 +415,22 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, "tag", hashtag));
     }
 
+    public void retrieveRepliesToPost(Post post, PostListResponseHandler responseHandler) {
+        retrieveRepliesToPost(post.getId(), null, responseHandler);
+    }
+
+    public void retrieveRepliesToPost(Post post, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        retrieveRepliesToPost(post.getId(), queryParameters, responseHandler);
+    }
+
+    public void retrieveRepliesToPost(String postId, PostListResponseHandler responseHandler) {
+        retrieveRepliesToPost(postId, null, responseHandler);
+    }
+
+    public void retrieveRepliesToPost(String postId, QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, postId, "replies"));
+    }
+
     public void deletePost(String postId, QueryParameters queryParameters, PostResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, METHOD_DELETE, queryParameters, ENDPOINT_POSTS, postId));
     }
