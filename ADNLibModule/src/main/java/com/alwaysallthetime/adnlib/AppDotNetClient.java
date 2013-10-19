@@ -508,6 +508,18 @@ public class AppDotNetClient {
     }
 
     /*
+     * POST - PERSONALIZED STREAM
+     */
+
+    public void retrievePersonalizedStream(PostListResponseHandler responseHandler) {
+        retrievePersonalizedStream(null, responseHandler);
+    }
+
+    public void retrievePersonalizedStream(QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, "stream"));
+    }
+
+    /*
      * CHANNEL
      */
 
