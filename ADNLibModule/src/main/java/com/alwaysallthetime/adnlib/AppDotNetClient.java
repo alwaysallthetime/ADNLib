@@ -532,6 +532,18 @@ public class AppDotNetClient {
     }
 
     /*
+     * POST - GLOBAL STREAM
+     */
+
+    public void retrieveGlobalStream(PostListResponseHandler responseHandler) {
+        retrieveGlobalStream(null, responseHandler);
+    }
+
+    public void retrieveGlobalStream(QueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, "stream", "global"));
+    }
+
+    /*
      * CHANNEL
      */
 
