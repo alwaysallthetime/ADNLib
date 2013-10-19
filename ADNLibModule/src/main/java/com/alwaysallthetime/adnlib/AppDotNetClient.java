@@ -544,6 +544,25 @@ public class AppDotNetClient {
     }
 
     /*
+     * POST - REPORT
+     */
+    public void reportPost(Post post, PostResponseHandler responseHandler) {
+        reportPost(post.getId(), null, responseHandler);
+    }
+
+    public void reportPost(Post post, QueryParameters queryParameters, PostResponseHandler responseHandler) {
+        reportPost(post.getId(), queryParameters, responseHandler);
+    }
+
+    public void reportPost(String postId, PostResponseHandler responseHandler) {
+        reportPost(postId, null, responseHandler);
+    }
+
+    public void reportPost(String postId, QueryParameters queryParameters, PostResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, METHOD_POST, queryParameters, ENDPOINT_POSTS, postId, "report"));
+    }
+
+    /*
      * CHANNEL
      */
 
