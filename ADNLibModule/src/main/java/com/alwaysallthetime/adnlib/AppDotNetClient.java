@@ -563,6 +563,14 @@ public class AppDotNetClient {
     }
 
     /*
+     * POST - SEARCH
+     */
+
+    public void retrievePostsWithSearchQuery(PostSearchQueryParameters queryParameters, PostListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, "search"));
+    }
+
+    /*
      * CHANNEL
      */
 
