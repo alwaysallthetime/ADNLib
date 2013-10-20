@@ -841,7 +841,7 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, null, ENDPOINT_PLACES, factualId));
     }
 
-    public void retrievePlacesWithSearchQuery(PlaceQueryParameters queryParameters, PlaceListResponseHandler responseHandler) {
+    public void retrievePlacesWithSearchQuery(PlaceSearchQueryParameters queryParameters, PlaceListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_PLACES, "search"));
     }
 
