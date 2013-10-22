@@ -132,7 +132,6 @@ client.retrieveUser(userId, new QueryParameters(GeneralParameter.INCLUDE_ANNOTAT
 
 ### TODO
 - documentation
-- remainder of User endpoints.
 - Creating Derived Files
 - WebView component for client-side authentication flow
 - pagination
