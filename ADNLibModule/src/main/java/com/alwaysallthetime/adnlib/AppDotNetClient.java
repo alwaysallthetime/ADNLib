@@ -312,6 +312,14 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, null, ENDPOINT_USERS, userId, "following", "ids"));
     }
 
+    public void retrieveIdsOfFollowers(User user, IdListResponseHandler responseHandler) {
+        retrieveIdsOfFollowers(user.getId(), responseHandler);
+    }
+
+    public void retrieveIdsOfFollowers(String userId, IdListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, null, ENDPOINT_USERS, userId, "followers", "ids"));
+    }
+
     public void retrieveMutedUsers(User user, UserListResponseHandler responseHandler) {
         retrieveMutedUsers(user.getId(), null, responseHandler);
     }
