@@ -271,6 +271,21 @@ public class AppDotNetClient {
         retrieveUsersWithSearchQuery(query, null, responseHandler);
     }
 
+    public void retrieveFollowedUsers(User user, UserListResponseHandler responseHandler) {
+        retrieveFollowedUsers(user.getId(), null, responseHandler);
+    }
+
+    public void retrieveFollowedUsers(String userId, UserListResponseHandler responseHandler) {
+        retrieveFollowedUsers(userId, null, responseHandler);
+    }
+
+    public void retrieveFollowedUsers(User user, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
+        retrieveFollowedUsers(user.getId(), queryParameters, responseHandler);
+    }
+
+    public void retrieveFollowedUsers(String userId, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userId, "following"));
+    }
     /*
      * POST - CREATION
      */
