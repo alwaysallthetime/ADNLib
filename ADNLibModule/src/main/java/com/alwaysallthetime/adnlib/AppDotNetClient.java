@@ -26,6 +26,7 @@ import com.alwaysallthetime.adnlib.response.ConfigurationResponseHandler;
 import com.alwaysallthetime.adnlib.response.CountResponseHandler;
 import com.alwaysallthetime.adnlib.response.FileListResponseHandler;
 import com.alwaysallthetime.adnlib.response.FileResponseHandler;
+import com.alwaysallthetime.adnlib.response.IdListResponseHandler;
 import com.alwaysallthetime.adnlib.response.LoginResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageListResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageResponseHandler;
@@ -301,6 +302,14 @@ public class AppDotNetClient {
 
     public void retrieveUserFollowers(String userId, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userId, "followers"));
+    }
+
+    public void retrieveIdsOfFollowedUsers(User user, IdListResponseHandler responseHandler) {
+        retrieveIdsOfFollowedUsers(user.getId(), responseHandler);
+    }
+
+    public void retrieveIdsOfFollowedUsers(String userId, IdListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, null, ENDPOINT_USERS, userId, "following", "ids"));
     }
 
     public void retrieveMutedUsers(User user, UserListResponseHandler responseHandler) {
