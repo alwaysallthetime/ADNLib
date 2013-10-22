@@ -350,6 +350,23 @@ public class AppDotNetClient {
     public void retrieveReposters(String postId, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, postId, "reposters"));
     }
+
+    public void retrieveStarrers(Post post, UserListResponseHandler responseHandler) {
+        retrieveStarrers(post.getId(), null, responseHandler);
+    }
+
+    public void retrieveStarrers(String postId, UserListResponseHandler responseHandler) {
+        retrieveStarrers(postId, null, responseHandler);
+    }
+
+    public void retrieveStarrers(Post post, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
+        retrieveStarrers(post.getId(), queryParameters, responseHandler);
+    }
+
+    public void retrieveStarrers(String postId, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, postId, "stars"));
+    }
+
     /*
      * POST - CREATION
      */
