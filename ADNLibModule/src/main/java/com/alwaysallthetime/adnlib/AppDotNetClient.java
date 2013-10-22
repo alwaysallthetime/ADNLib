@@ -318,6 +318,22 @@ public class AppDotNetClient {
     public void retrieveMutedUsers(String userId, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userId, "muted"));
     }
+
+    public void retrieveBlockedUsers(User user, UserListResponseHandler responseHandler) {
+        retrieveBlockedUsers(user.getId(), null, responseHandler);
+    }
+
+    public void retrieveBlockedUsers(String userId, UserListResponseHandler responseHandler) {
+        retrieveBlockedUsers(userId, null, responseHandler);
+    }
+
+    public void retrieveBlockedUsers(User user, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
+        retrieveBlockedUsers(user.getId(), queryParameters, responseHandler);
+    }
+
+    public void retrieveBlockedUsers(String userId, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userId, "blocked"));
+    }
     /*
      * POST - CREATION
      */
