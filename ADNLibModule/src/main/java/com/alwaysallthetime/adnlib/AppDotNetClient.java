@@ -302,6 +302,22 @@ public class AppDotNetClient {
     public void retrieveUserFollowers(String userId, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userId, "followers"));
     }
+
+    public void retrieveMutedUsers(User user, UserListResponseHandler responseHandler) {
+        retrieveMutedUsers(user.getId(), null, responseHandler);
+    }
+
+    public void retrieveMutedUsers(String userId, UserListResponseHandler responseHandler) {
+        retrieveMutedUsers(userId, null, responseHandler);
+    }
+
+    public void retrieveMutedUsers(User user, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
+        retrieveMutedUsers(user.getId(), queryParameters, responseHandler);
+    }
+
+    public void retrieveMutedUsers(String userId, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, userId, "muted"));
+    }
     /*
      * POST - CREATION
      */
