@@ -2,9 +2,19 @@ ADNLib
 ======
 App.net library for Android
 
-
 ### Status
-ADNLib is a work in progress. Currently it only supports a basic set of User and Post actions. It also supports password flow authentication, or you can retrieve an access token on your own and pass it to the client. ADNLib is set up to be used with Android Studio.
+ADNLib is a work in progress. It currently supports a majority of the available APIs, including:
+* All Post and User endpoints that a typical social/microblogging app might use,
+* Channel and Message endpoints that can be used for something like a private messaging app or a chat room app,
+* File creation and retrieval endpoints to let you tap into a user's App.net file storage, 
+* Place search,
+* and other miscellaneous functionality, including Stream Markers and retrieval of Configuration objects.
+
+It also supports password flow authentication, or you can retrieve an access token on your own and pass it to the client. 
+
+See the TODO list at the bottom of this README for a list of stuff that is yet to be implemented. Fork and contribute!
+
+ADNLib is set up to be used with Android Studio.
 
 ### Getting Started
 *ADNLib is a standalone Android Studio project, but here we describe how to add it as a module to your existing project. These instructions were written for Android Studio 0.2.6. It is still a "Preview" that often works in mysterious ways. For this reason, we do things a little funky. If you are an Android Studio pro, then feel free to set up the project however you'd prefer. Please note that these instructions may become stale as Android Studio updates are released.*
