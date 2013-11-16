@@ -299,14 +299,4 @@ public class PostSearchQueryParameters extends QueryParameters {
     public void setThreadId(String threadId) {
         put("thread_id", threadId);
     }
-
-    private String getCommaDelimitedString(List<String> strings, int bestGuessMaxLength) {
-        final StringBuilder buffer = new StringBuilder(strings.size() * bestGuessMaxLength);
-        for(final String str : strings) {
-            buffer.append(str);
-            buffer.append(',');
-        }
-
-        return buffer.substring(0, buffer.length() - 1);
-    }
 }

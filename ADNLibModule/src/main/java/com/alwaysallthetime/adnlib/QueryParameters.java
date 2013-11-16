@@ -1,6 +1,7 @@
 package com.alwaysallthetime.adnlib;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class QueryParameters extends HashMap<String, String> {
     // very unlikely you'd ever need more than 4 query parameters on one request
@@ -24,5 +25,15 @@ public class QueryParameters extends HashMap<String, String> {
         for (IQueryParameter queryParameter : queryParameters) {
             put(queryParameter.getName(), queryParameter.getValue());
         }
+    }
+
+    protected String getCommaDelimitedString(List<String> strings, int bestGuessMaxLength) {
+        final StringBuilder buffer = new StringBuilder(strings.size() * bestGuessMaxLength);
+        for(final String str : strings) {
+            buffer.append(str);
+            buffer.append(',');
+        }
+
+        return buffer.substring(0, buffer.length() - 1);
     }
 }
