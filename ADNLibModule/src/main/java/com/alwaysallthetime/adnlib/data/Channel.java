@@ -61,6 +61,10 @@ public class Channel extends Annotatable {
         return counts.messages;
     }
 
+    public int getSubscriberCount() {
+        return counts.subscribers;
+    }
+
     public String getType() {
         return type;
     }
@@ -119,6 +123,7 @@ public class Channel extends Annotatable {
 
     private static class Counts {
         private int messages;
+        private int subscribers;
     }
 
     public static class Acl {
