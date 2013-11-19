@@ -46,6 +46,7 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.net.ssl.SSLSocketFactory;
 
@@ -769,6 +770,10 @@ public class AppDotNetClient {
 
     public void updateChannel(Channel channel, ChannelResponseHandler responseHandler) {
         updateChannel(channel, null, responseHandler);
+    }
+
+    public void updateChannel(String channelId, Map<String, Object> body, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        execute(new AppDotNetApiJsonRequest(responseHandler, METHOD_PUT, body, queryParameters, ENDPOINT_CHANNELS, channelId));
     }
 
     public void subscribeChannel(String channelId, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
