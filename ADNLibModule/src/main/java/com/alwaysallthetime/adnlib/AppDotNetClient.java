@@ -27,6 +27,7 @@ import com.alwaysallthetime.adnlib.response.CountResponseHandler;
 import com.alwaysallthetime.adnlib.response.FileListResponseHandler;
 import com.alwaysallthetime.adnlib.response.FileResponseHandler;
 import com.alwaysallthetime.adnlib.response.IdListResponseHandler;
+import com.alwaysallthetime.adnlib.response.InteractionListResponseHandler;
 import com.alwaysallthetime.adnlib.response.LoginResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageListResponseHandler;
 import com.alwaysallthetime.adnlib.response.MessageResponseHandler;
@@ -60,6 +61,7 @@ public class AppDotNetClient {
     protected static final String ENDPOINT_USERS = "users";
     protected static final String ENDPOINT_POSTS = "posts";
     protected static final String ENDPOINT_STARS = "stars";
+    protected static final String ENDPOINT_INTERACTIONS = "interactions";
     protected static final String ENDPOINT_MENTIONS = "mentions";
     protected static final String ENDPOINT_CHANNELS = "channels";
     protected static final String ENDPOINT_MESSAGES = "messages";
@@ -383,6 +385,18 @@ public class AppDotNetClient {
 
     public void retrieveStarrers(String postId, QueryParameters queryParameters, UserListResponseHandler responseHandler) {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_POSTS, postId, "stars"));
+    }
+
+    /*
+     * INTERACTIONS
+     */
+
+    public void retrieveCurrentUserInteractions(InteractionListResponseHandler responseHandler) {
+        retrieveCurrentUserInteractions(null, responseHandler);
+    }
+
+    public void retrieveCurrentUserInteractions(QueryParameters queryParameters, InteractionListResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_USERS, "me", ENDPOINT_INTERACTIONS));
     }
 
     /*
