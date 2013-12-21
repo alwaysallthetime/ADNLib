@@ -43,4 +43,8 @@ public class Annotation {
     public Object removeValue(String key) {
         return value.remove(key);
     }
+
+    public Object getValueForKey(String key) {
+        return value.get(key);
+    }
 }
