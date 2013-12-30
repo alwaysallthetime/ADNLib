@@ -1,5 +1,6 @@
 package com.alwaysallthetime.adnlib;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 
@@ -52,6 +53,10 @@ import java.util.Map;
 import javax.net.ssl.SSLSocketFactory;
 
 public class AppDotNetClient {
+    //currently this is broadcasted if a status code >= 400 is received.
+    public static final String INTENT_ACTION_RECEIVED_FAILURE_STATUS_CODE = "com.alwaysallthetime.adnlib.AppDotNetClient.intent.failure";
+    public static final String EXTRA_STATUS_CODE = "com.alwaysallthetime.adnlib.extras.statusCode";
+
     public static final String METHOD_DELETE = "DELETE";
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";
@@ -69,23 +74,25 @@ public class AppDotNetClient {
     protected static final String ENDPOINT_FILES = "files";
     protected static final String ENDPOINT_CONFIGURATION = "config";
 
+    protected Context context;
     protected String authHeader;
     protected String languageHeader;
     protected List<NameValuePair> authParams;
     protected SSLSocketFactory sslSocketFactory;
 
-    public AppDotNetClient() {
+    public AppDotNetClient(Context applicationContext) {
         final Locale locale = Locale.getDefault();
         languageHeader = String.format("%s-%s", locale.getLanguage(), locale.getCountry());
+        this.context = applicationContext;
     }
 
-    public AppDotNetClient(String token) {
-        this();
+    public AppDotNetClient(Context applicationContext, String token) {
+        this(applicationContext);
         setToken(token);
     }
 
-    public AppDotNetClient(String clientId, String passwordGrantSecret) {
-        this();
+    public AppDotNetClient(Context applicationContext, String clientId, String passwordGrantSecret) {
+        this(applicationContext);
         authParams = new ArrayList<NameValuePair>(3);
         authParams.add(new BasicNameValuePair("client_id", clientId));
         authParams.add(new BasicNameValuePair("password_grant_secret", passwordGrantSecret));
@@ -1076,7 +1083,7 @@ public class AppDotNetClient {
             throw new IllegalStateException("authentication token not set");
         }
 
-        final AppDotNetClientTask task = new AppDotNetClientTask(authHeader, languageHeader, sslSocketFactory);
+        final AppDotNetClientTask task = new AppDotNetClientTask(context, authHeader, languageHeader, sslSocketFactory);
 
         // AsyncTask was changed in Honeycomb to execute in serial by default, at which time
         // executeOnExecutor was added to specify parallel execution.
