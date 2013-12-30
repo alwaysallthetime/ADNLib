@@ -52,4 +52,11 @@ public abstract class AppDotNetResponseEnvelopeHandler<T extends IAppDotNetObjec
 
         return responseMeta.isMore();
     }
+
+    public Integer getStatusCode() {
+        if (responseMeta == null)
+            return null;
+
+        return responseMeta.getCode();
+    }
 }
