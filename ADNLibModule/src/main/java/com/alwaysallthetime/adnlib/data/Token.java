@@ -1,6 +1,6 @@
 package com.alwaysallthetime.adnlib.data;
 
-public class Token implements IAppDotNetObject {
+public class Token implements IPageableAppDotNetObject {
     private App app;
     private String clientId;
     private String[] scopes;
@@ -8,6 +8,7 @@ public class Token implements IAppDotNetObject {
     private Storage storage;
     private User user;
     private String inviteLink;
+    private String paginationId;
 
     public App getApp() {
         return app;
@@ -35,6 +36,11 @@ public class Token implements IAppDotNetObject {
 
     public String getInviteLink() {
         return inviteLink;
+    }
+
+    @Override
+    public String getPaginationId() {
+        return paginationId;
     }
 
     public static class Limits {

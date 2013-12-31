@@ -5,13 +5,20 @@ import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Annotatable implements IAppDotNetObject {
+public abstract class Annotatable implements IPageableAppDotNetObject {
     @Expose(serialize = false)
     protected String id;
+    @Expose(serialize = false)
+    protected String paginationId;
     protected ArrayList<Annotation> annotations;
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String getPaginationId() {
+        return paginationId;
     }
 
     public boolean hasAnnotations() {
