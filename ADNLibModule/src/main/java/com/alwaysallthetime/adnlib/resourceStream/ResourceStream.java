@@ -1,5 +1,7 @@
-package com.alwaysallthetime.adnlib;
+package com.alwaysallthetime.adnlib.resourceStream;
 
+import com.alwaysallthetime.adnlib.AppDotNetClient;
+import com.alwaysallthetime.adnlib.QueryParameters;
 import com.alwaysallthetime.adnlib.data.IPageableAppDotNetObject;
 import com.alwaysallthetime.adnlib.data.IPageableAppDotNetObjectList;
 import com.alwaysallthetime.adnlib.data.ResponseMeta;
