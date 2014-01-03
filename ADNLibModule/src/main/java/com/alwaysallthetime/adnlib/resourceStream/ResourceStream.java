@@ -13,9 +13,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
-    private static final int RETRIEVE_COUNT = 80;
+    private static final int DEFAULT_RETRIEVE_COUNT = 80;
 
     protected AppDotNetClient client;
+    private final int retrieveCount;
     private String minId;
     private String maxId;
     private boolean isLoadedToTail;
@@ -24,7 +25,12 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
     private ArrayList<IPageableAppDotNetObject> objects;
 
     public ResourceStream(AppDotNetClient client) {
+        this(client, DEFAULT_RETRIEVE_COUNT);
+    }
+
+    public ResourceStream(AppDotNetClient client, int count) {
         this.client = client;
+        this.retrieveCount = count;
         objects = new ArrayList<IPageableAppDotNetObject>(0);
     }
 
@@ -152,12 +158,12 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
     private QueryParameters getLoadTowardTailParameters() {
         QueryParameters queryParameters = new QueryParameters();
         queryParameters.put("before_id", minId);
-        queryParameters.put("count", String.valueOf(RETRIEVE_COUNT));
+        queryParameters.put("count", String.valueOf(retrieveCount));
         return queryParameters;
     }
 
     private QueryParameters getLoadTowardHeadParameters() {
-        int retrieveCount = RETRIEVE_COUNT;
+        int retrieveCount = this.retrieveCount;
         if(maxId != null) {
             retrieveCount = -retrieveCount;
         }
