@@ -6,14 +6,14 @@ import com.alwaysallthetime.adnlib.data.InteractionList;
 import com.alwaysallthetime.adnlib.response.InteractionListResponseHandler;
 import com.alwaysallthetime.adnlib.response.InteractionsResourceStreamResponseHandler;
 
-public class InteractionsResourceStream extends ResourceStream<InteractionsResourceStreamResponseHandler> {
+public class InteractionResourceStream extends ResourceStream<InteractionsResourceStreamResponseHandler> {
     private QueryParameters queryParameters;
 
-    public InteractionsResourceStream(AppDotNetClient client) {
+    public InteractionResourceStream(AppDotNetClient client) {
         super(client);
     }
 
-    public InteractionsResourceStream(AppDotNetClient client, QueryParameters parameters) {
+    public InteractionResourceStream(AppDotNetClient client, QueryParameters parameters) {
         this(client);
         queryParameters = parameters;
     }
