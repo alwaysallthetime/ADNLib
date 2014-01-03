@@ -19,8 +19,9 @@ public class InteractionsResourceStream extends ResourceStream<InteractionsResou
     }
 
     @Override
-    protected void retrieveObjects(final ResourceStreamResponseHandlerInternal responseHandler) {
-        client.retrieveCurrentUserInteractions(queryParameters, new InteractionListResponseHandler() {
+    protected void retrieveObjects(QueryParameters queryParameters, final ResourceStreamResponseHandlerInternal responseHandler) {
+        QueryParameters params = QueryParameters.getCombinedParameters(this.queryParameters, queryParameters);
+        client.retrieveCurrentUserInteractions(params, new InteractionListResponseHandler() {
             @Override
             public void onSuccess(InteractionList responseData) {
                 responseHandler.onSuccess(responseData, getResponseMeta());

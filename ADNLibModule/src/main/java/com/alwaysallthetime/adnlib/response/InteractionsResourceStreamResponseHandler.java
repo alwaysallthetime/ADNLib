@@ -4,7 +4,7 @@ import com.alwaysallthetime.adnlib.data.InteractionList;
 import com.alwaysallthetime.adnlib.data.ResponseEnvelope;
 import com.google.gson.reflect.TypeToken;
 
-public abstract class InteractionsResourceStreamResponseHandler extends ResourceStreamResponseHandler<InteractionList> {
+public abstract class InteractionsResourceStreamResponseHandler<T> extends ResourceStreamResponseHandler<InteractionList> {
     protected InteractionsResourceStreamResponseHandler() {
         super(new TypeToken<ResponseEnvelope<? extends InteractionList>>(){});
     }

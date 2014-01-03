@@ -28,7 +28,7 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         objects = new ArrayList<IPageableAppDotNetObject>(0);
     }
 
-    protected abstract void retrieveObjects(ResourceStreamResponseHandlerInternal responseHandler);
+    protected abstract void retrieveObjects(QueryParameters queryParameters, ResourceStreamResponseHandlerInternal responseHandler);
 
     protected abstract class ResourceStreamResponseHandlerInternal {
         public abstract void onSuccess(IPageableAppDotNetObjectList objects, ResponseMeta responseMeta);
@@ -103,7 +103,7 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
     private void load(final QueryParameters queryParameters, final ResourceStreamResponseHandlerInternal internalResponseHandler, final T responseHandler) {
         isRequestInProgress = true;
 
-        retrieveObjects(new ResourceStreamResponseHandlerInternal() {
+        retrieveObjects(queryParameters, new ResourceStreamResponseHandlerInternal() {
             @Override
             public void onSuccess(IPageableAppDotNetObjectList responseData, ResponseMeta meta) {
                 // Insert objects into array (at head or at tail)
