@@ -4,9 +4,9 @@ import com.alwaysallthetime.adnlib.AppDotNetClient;
 import com.alwaysallthetime.adnlib.QueryParameters;
 import com.alwaysallthetime.adnlib.data.InteractionList;
 import com.alwaysallthetime.adnlib.response.InteractionListResponseHandler;
-import com.alwaysallthetime.adnlib.response.InteractionsResourceStreamResponseHandler;
+import com.alwaysallthetime.adnlib.response.InteractionResourceStreamResponseHandler;
 
-public class InteractionResourceStream extends ResourceStream<InteractionsResourceStreamResponseHandler> {
+public class InteractionResourceStream extends ResourceStream<InteractionResourceStreamResponseHandler> {
     private QueryParameters queryParameters;
 
     public InteractionResourceStream(AppDotNetClient client) {
