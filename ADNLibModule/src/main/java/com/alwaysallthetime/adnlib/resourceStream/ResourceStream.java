@@ -117,7 +117,7 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
                 // -- set
                 ArrayList<IPageableAppDotNetObject> newObjects = new ArrayList<IPageableAppDotNetObject>(responseData.size() + objects.size());
                 newObjects.addAll(objects);
-                newObjects.addAll(newObjects);
+                newObjects.addAll(responseData);
                 Collections.sort(newObjects, new PageableObjectComparator());
 
                 objects = newObjects;
