@@ -102,7 +102,7 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         return isRequestInProgress;
     }
 
-    public List<IPageableAppDotNetObject> getObjects() {
+    public List<? extends IPageableAppDotNetObject> getObjects() {
         return objects;
     }
 
