@@ -6,6 +6,7 @@ import com.alwaysallthetime.adnlib.data.IPageableAppDotNetObject;
 import com.alwaysallthetime.adnlib.data.IPageableAppDotNetObjectList;
 import com.alwaysallthetime.adnlib.data.ResponseMeta;
 import com.alwaysallthetime.adnlib.response.ResourceStreamResponseHandler;
+import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,14 +16,18 @@ import java.util.List;
 public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
     private static final int DEFAULT_RETRIEVE_COUNT = 80;
 
+    @Expose(serialize = false)
     protected AppDotNetClient client;
-    private final int retrieveCount;
+    @Expose(serialize = false)
+    private  int retrieveCount;
+    @Expose(serialize = false)
+    private boolean isRequestInProgress;
+    @Expose(serialize = false)
+    private ArrayList<IPageableAppDotNetObject> objects;
+
     private String minId;
     private String maxId;
     private boolean isLoadedToTail;
-    private boolean isRequestInProgress;
-
-    private ArrayList<IPageableAppDotNetObject> objects;
 
     public ResourceStream(AppDotNetClient client) {
         this(client, DEFAULT_RETRIEVE_COUNT);
@@ -32,6 +37,17 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         this.client = client;
         this.retrieveCount = count;
         objects = new ArrayList<IPageableAppDotNetObject>(0);
+    }
+
+    public void setClient(AppDotNetClient client) {
+        this.client = client;
+        if(retrieveCount == 0) {
+           retrieveCount = DEFAULT_RETRIEVE_COUNT;
+        }
+    }
+
+    public void setObjects(ArrayList<IPageableAppDotNetObject> objects) {
+        this.objects = objects;
     }
 
     protected abstract void retrieveObjects(QueryParameters queryParameters, ResourceStreamResponseHandlerInternal responseHandler);
