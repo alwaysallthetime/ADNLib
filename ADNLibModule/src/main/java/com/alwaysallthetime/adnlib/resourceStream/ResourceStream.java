@@ -82,7 +82,7 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         load(getLoadTowardTailParameters(), new ResourceStreamResponseHandlerInternal() {
             @Override
             public void onSuccess(IPageableAppDotNetObjectList objects, ResponseMeta responseMeta) {
-                if(responseHandler.getResponseMeta().isMore()) {
+                if(responseMeta.isMore()) {
                     loadToTail(responseHandler);
                 } else {
                     responseHandler.onSuccess(objects);
@@ -100,7 +100,7 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         load(getLoadTowardHeadParameters(), new ResourceStreamResponseHandlerInternal() {
             @Override
             public void onSuccess(IPageableAppDotNetObjectList objects, ResponseMeta responseMeta) {
-                if(responseHandler.getResponseMeta().isMore()) {
+                if(responseMeta.isMore()) {
                     loadToHead(responseHandler);
                 } else {
                     responseHandler.onSuccess(objects);
