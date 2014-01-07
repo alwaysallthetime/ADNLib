@@ -7,7 +7,6 @@ import com.alwaysallthetime.adnlib.gson.AppDotNetGson;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ResourceStreamSerializer {
     public static void serialize(SharedPreferences preferences, String key, ResourceStream resourceStream) {
@@ -16,6 +15,13 @@ public class ResourceStreamSerializer {
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString(key, resourceStreamJson);
         edit.putString(key + "_objects", objectsJson);
+        edit.commit();
+    }
+
+    public static void remove(SharedPreferences preferences, String key) {
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.remove(key);
+        edit.remove(key + "_objects");
         edit.commit();
     }
 
