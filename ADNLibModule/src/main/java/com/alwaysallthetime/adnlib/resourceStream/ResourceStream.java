@@ -142,7 +142,7 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
                     minId = meta.getMinId();
                 }
 
-                if(maxId == null || (meta.getMaxId() != null && compareIds(maxId, meta.getMaxId()) == 1)) {
+                if(maxId == null || (meta.getMaxId() != null && compareIds(maxId, meta.getMaxId()) == -1)) {
                     maxId = meta.getMaxId();
                 }
 
