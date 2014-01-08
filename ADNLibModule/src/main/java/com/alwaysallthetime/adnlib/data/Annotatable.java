@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Annotatable implements IPageableAppDotNetObject {
+public abstract class Annotatable implements IPageableAppDotNetIdObject {
     @Expose(serialize = false)
     protected String id;
     @Expose(serialize = false)
