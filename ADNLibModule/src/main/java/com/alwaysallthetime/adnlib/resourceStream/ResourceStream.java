@@ -2,6 +2,7 @@ package com.alwaysallthetime.adnlib.resourceStream;
 
 import com.alwaysallthetime.adnlib.AppDotNetClient;
 import com.alwaysallthetime.adnlib.QueryParameters;
+import com.alwaysallthetime.adnlib.data.IPageableAppDotNetIdObject;
 import com.alwaysallthetime.adnlib.data.IPageableAppDotNetObject;
 import com.alwaysallthetime.adnlib.data.IPageableAppDotNetObjectList;
 import com.alwaysallthetime.adnlib.data.ResponseMeta;
@@ -9,9 +10,10 @@ import com.alwaysallthetime.adnlib.response.ResourceStreamResponseHandler;
 import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
     private static final int DEFAULT_RETRIEVE_COUNT = 80;
@@ -23,32 +25,13 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
     @Expose(serialize = false)
     private boolean isRequestInProgress;
     @Expose(serialize = false)
-    private ArrayList<IPageableAppDotNetObject> objects;
+    private TreeMap<String, IPageableAppDotNetObject> objects;
+    @Expose(serialize = false)
+    private HashMap<String, String> objectPaginationIdsForIds;
 
     private String minId;
     private String maxId;
     private boolean isLoadedToTail;
-
-    public ResourceStream(AppDotNetClient client) {
-        this(client, DEFAULT_RETRIEVE_COUNT);
-    }
-
-    public ResourceStream(AppDotNetClient client, int count) {
-        this.client = client;
-        this.retrieveCount = count;
-        objects = new ArrayList<IPageableAppDotNetObject>(0);
-    }
-
-    public void setClient(AppDotNetClient client) {
-        this.client = client;
-        if(retrieveCount == 0) {
-           retrieveCount = DEFAULT_RETRIEVE_COUNT;
-        }
-    }
-
-    public void setObjects(ArrayList<IPageableAppDotNetObject> objects) {
-        this.objects = objects;
-    }
 
     protected abstract void retrieveObjects(QueryParameters queryParameters, ResourceStreamResponseHandlerInternal responseHandler);
 
@@ -57,10 +40,52 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         public abstract void onException(Exception e);
     }
 
+    public ResourceStream(AppDotNetClient client) {
+        this(client, DEFAULT_RETRIEVE_COUNT);
+    }
+
+    public ResourceStream(AppDotNetClient client, int count) {
+        this.client = client;
+        this.retrieveCount = count;
+        objects = new TreeMap<String, IPageableAppDotNetObject>(new PageableObjectIdComparator());
+        objectPaginationIdsForIds = new HashMap<String, String>(0);
+    }
+
+    public void setClient(AppDotNetClient client) {
+        this.client = client;
+        if(retrieveCount == 0) {
+           retrieveCount = DEFAULT_RETRIEVE_COUNT;
+        }
+        if(objects == null) {
+            objects = new TreeMap<String, IPageableAppDotNetObject>(new PageableObjectIdComparator());
+            objectPaginationIdsForIds = new HashMap<String, String>(0);
+        }
+    }
+
+    public void setObjects(ArrayList<IPageableAppDotNetObject> newObjects) {
+        objects = new TreeMap<String, IPageableAppDotNetObject>(new PageableObjectIdComparator());
+        objectPaginationIdsForIds = new HashMap<String, String>(newObjects.size());
+
+        //all objects will either have an id or won't (they're homogeneous)
+        Boolean hasId = null;
+        for(IPageableAppDotNetObject o : newObjects) {
+            String paginationId = o.getPaginationId();
+            objects.put(paginationId, o);
+
+            if(hasId == null) {
+                hasId = o instanceof IPageableAppDotNetIdObject;
+            }
+            if(hasId) {
+                objectPaginationIdsForIds.put(((IPageableAppDotNetIdObject)o).getId(), paginationId);
+            }
+        }
+
+    }
+
     public void reload(T responseHandler) {
         minId = null;
         maxId = null;
-        objects = new ArrayList<IPageableAppDotNetObject>(0);
+        objects = new TreeMap<String, IPageableAppDotNetObject>(new PageableObjectIdComparator());
         isLoadedToTail = false;
 
         loadTowardTail(responseHandler);
@@ -119,7 +144,7 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
     }
 
     public List<? extends IPageableAppDotNetObject> getObjects() {
-        return objects;
+        return new ArrayList<IPageableAppDotNetObject>(objects.values());
     }
 
     private void load(final QueryParameters queryParameters, final ResourceStreamResponseHandlerInternal internalResponseHandler, final T responseHandler) {
@@ -128,14 +153,35 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         retrieveObjects(queryParameters, new ResourceStreamResponseHandlerInternal() {
             @Override
             public void onSuccess(IPageableAppDotNetObjectList responseData, ResponseMeta meta) {
-                // Insert objects into array (at head or at tail)
-                // -- copy, combine, sort
-                // -- set
-                ArrayList<IPageableAppDotNetObject> newObjects = new ArrayList<IPageableAppDotNetObject>(responseData.size() + objects.size());
-                newObjects.addAll(objects);
-                newObjects.addAll(responseData);
-                Collections.sort(newObjects, new PageableObjectComparator());
+                TreeMap<String, IPageableAppDotNetObject> newObjects = new TreeMap<String, IPageableAppDotNetObject>(new PageableObjectIdComparator());
 
+                //1. remove any existing objects that have the same pagination id or the same id as this object.
+                //2. add the object to the new objects map
+                //3. add the existing objects to the new objects map
+                //
+                //(sorting is done automatically thanks to TreeMap)
+
+                for(Object obj : responseData) {
+                    String id = (obj instanceof IPageableAppDotNetIdObject) ? ((IPageableAppDotNetIdObject)obj).getId() : null;
+                    String paginationId = ((IPageableAppDotNetObject)obj).getPaginationId();
+
+                    objects.remove(paginationId);
+                    if(id != null) {
+                        //we see if there is an existing object in 'objects' with this same id
+                        //by checking to see if we get a pagination id back for this id.
+                        //if we do, then use the pagination id to remove the existing object from
+                        //the main objects map.
+                        String paginationIdForId = objectPaginationIdsForIds.get(id);
+                        if(paginationIdForId != null) {
+                            objects.remove(paginationIdForId);
+                        }
+                        objectPaginationIdsForIds.put(id, paginationId);
+                    }
+
+                    newObjects.put(paginationId, (IPageableAppDotNetObject) obj);
+                }
+
+                newObjects.putAll(objects);
                 objects = newObjects;
 
                 if(minId == null || (meta.getMinId() != null && compareIds(minId, meta.getMinId()) == 1)) {
@@ -193,13 +239,11 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         return Integer.valueOf(id1).compareTo(Integer.valueOf(id2));
     }
 
-    private class PageableObjectComparator implements Comparator<IPageableAppDotNetObject> {
+    private class PageableObjectIdComparator implements Comparator<String> {
         @Override
-        public int compare(IPageableAppDotNetObject lhs, IPageableAppDotNetObject rhs) {
-            Integer lhsInteger = new Integer(Integer.parseInt(lhs.getPaginationId()));
-            Integer rhsInteger = new Integer(Integer.parseInt(rhs.getPaginationId()));
+        public int compare(String lhs, String rhs) {
             //we want desc order (reverse chronological order)
-            return rhsInteger.compareTo(lhsInteger);
+            return compareIds(rhs, lhs);
         }
 
         @Override
