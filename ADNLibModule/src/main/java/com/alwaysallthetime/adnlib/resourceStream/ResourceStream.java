@@ -27,7 +27,7 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
     @Expose(serialize = false)
     private TreeMap<String, IPageableAppDotNetObject> objects;
     @Expose(serialize = false)
-    private HashMap<String, String> objectPaginationIdsForIds;
+    private HashMap<String, String> objectPaginationIdsForIds; //id : paginationId
 
     private String minId;
     private String maxId;
@@ -79,9 +79,14 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
                 objectPaginationIdsForIds.put(((IPageableAppDotNetIdObject)o).getId(), paginationId);
             }
         }
-
     }
 
+    /**
+     * Clear the state of this ResourceStream and retrieve a batch of objects starting
+     * at the head of the stream.
+     *
+     * @param responseHandler
+     */
     public void reload(T responseHandler) {
         minId = null;
         maxId = null;
@@ -91,6 +96,25 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         loadTowardTail(responseHandler);
     }
 
+    /**
+     * Clear the state of this ResourceStream and retrieve all objects in the stream.
+     *
+     * @param responseHandler
+     */
+    public void reloadToTail(T responseHandler) {
+        minId = null;
+        maxId = null;
+        objects = new TreeMap<String, IPageableAppDotNetObject>(new PageableObjectIdComparator());
+        isLoadedToTail = false;
+
+        loadToTail(responseHandler);
+    }
+
+    /**
+     * Load more objects in this stream.
+     *
+     * @param responseHandler
+     */
     public void loadTowardTail(T responseHandler) {
         if(isLoadedToTail) {
             responseHandler.onSuccess(null);
@@ -99,10 +123,20 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         }
     }
 
+    /**
+     * Load the newest objects in this stream.
+     *
+     * @param responseHandler
+     */
     public void loadTowardHead(T responseHandler) {
         load(getLoadTowardHeadParameters(), null, responseHandler);
     }
 
+    /**
+     * Load the rest of the objects in this stream, starting from the oldest known object.
+     *
+     * @param responseHandler
+     */
     public void loadToTail(final T responseHandler) {
         load(getLoadTowardTailParameters(), new ResourceStreamResponseHandlerInternal() {
             @Override
@@ -121,6 +155,11 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         }, null);
     }
 
+    /**
+     * Load the rest of the newest objects in this stream, starting from the latest known object.
+     *
+     * @param responseHandler
+     */
     public void loadToHead(final T responseHandler) {
         load(getLoadTowardHeadParameters(), new ResourceStreamResponseHandlerInternal() {
             @Override
@@ -141,6 +180,14 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
 
     public boolean isRequestInProgress() {
         return isRequestInProgress;
+    }
+
+    public String getMaxId() {
+        return maxId;
+    }
+
+    public String getMinId() {
+        return minId;
     }
 
     public List<? extends IPageableAppDotNetObject> getObjects() {
