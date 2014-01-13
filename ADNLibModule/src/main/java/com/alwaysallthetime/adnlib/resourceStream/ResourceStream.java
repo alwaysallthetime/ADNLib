@@ -51,7 +51,7 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         objectPaginationIdsForIds = new HashMap<String, String>(0);
     }
 
-    public void setClient(AppDotNetClient client) {
+    public synchronized void setClient(AppDotNetClient client) {
         this.client = client;
         if(retrieveCount == 0) {
            retrieveCount = DEFAULT_RETRIEVE_COUNT;
@@ -62,7 +62,7 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         }
     }
 
-    public void setObjects(ArrayList<IPageableAppDotNetObject> newObjects) {
+    public synchronized void setObjects(ArrayList<IPageableAppDotNetObject> newObjects) {
         objects = new TreeMap<String, IPageableAppDotNetObject>(new PageableObjectIdComparator());
         objectPaginationIdsForIds = new HashMap<String, String>(newObjects.size());
 
@@ -190,11 +190,11 @@ public abstract class ResourceStream<T extends ResourceStreamResponseHandler> {
         return minId;
     }
 
-    public List<? extends IPageableAppDotNetObject> getObjects() {
+    public synchronized List<? extends IPageableAppDotNetObject> getObjects() {
         return new ArrayList<IPageableAppDotNetObject>(objects.values());
     }
 
-    private void load(final QueryParameters queryParameters, final ResourceStreamResponseHandlerInternal internalResponseHandler, final T responseHandler) {
+    private synchronized void load(final QueryParameters queryParameters, final ResourceStreamResponseHandlerInternal internalResponseHandler, final T responseHandler) {
         isRequestInProgress = true;
 
         retrieveObjects(queryParameters, new ResourceStreamResponseHandlerInternal() {
