@@ -17,6 +17,7 @@ public class Annotations {
     public static final String DIRECTORY_HOMEPAGE = "net.app.core.directory.homepage";
     public static final String DIRECTORY_TWITTER = "net.app.core.directory.twitter";
     public static final String FALLBACK_URL = "net.app.core.fallback_url";
+    public static final String FILE_LIST = "net.app.core.file_list";
     public static final String GEOLOCATION = "net.app.core.geolocation";
     public static final String LANGUAGE = "net.app.core.language";
     public static final String OEMBED = "net.app.core.oembed";
