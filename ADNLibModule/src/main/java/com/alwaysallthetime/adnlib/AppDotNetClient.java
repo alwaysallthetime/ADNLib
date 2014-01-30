@@ -861,6 +861,14 @@ public class AppDotNetClient {
         unmuteChannel(channel, null, responseHandler);
     }
 
+    public void deactivateChannel(String channelId, ChannelResponseHandler responseHandler) {
+        deactivateChannel(channelId, null, responseHandler);
+    }
+
+    public void deactivateChannel(String channelId, QueryParameters queryParameters, ChannelResponseHandler responseHandler) {
+        execute(new AppDotNetApiRequest(responseHandler, METHOD_DELETE, queryParameters, ENDPOINT_CHANNELS, channelId));
+    }
+
     /*
      * MESSAGE
      */
