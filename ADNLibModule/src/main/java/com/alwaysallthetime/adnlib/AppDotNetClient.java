@@ -46,6 +46,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -940,7 +941,7 @@ public class AppDotNetClient {
         execute(new AppDotNetApiRequest(responseHandler, queryParameters, ENDPOINT_CHANNELS, ENDPOINT_MESSAGES));
     }
 
-    public void retrieveMessagesById(List<String> messageIds, QueryParameters queryParameters, MessageListResponseHandler responseHandler) {
+    public void retrieveMessagesById(Collection<String> messageIds, QueryParameters queryParameters, MessageListResponseHandler responseHandler) {
         retrieveMessages(getIdString(messageIds), queryParameters, responseHandler);
     }
 
@@ -1067,7 +1068,7 @@ public class AppDotNetClient {
      * MISC
      */
 
-    protected String getIdString(List<String> ids) {
+    protected String getIdString(Collection<String> ids) {
         final StringBuilder buffer = new StringBuilder(ids.size() * ID_LENGTH);
         for (final String id : ids) {
             buffer.append(id);
