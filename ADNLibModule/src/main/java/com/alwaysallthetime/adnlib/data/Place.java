@@ -3,24 +3,24 @@ package com.alwaysallthetime.adnlib.data;
 import java.util.ArrayList;
 
 public class Place implements IAppDotNetObject {
-    private String factualId;
-    private String name;
-    private String address;
-    private String addressExtended;
-    private String locality;
-    private String region;
-    private String adminRegion;
-    private String postTown;
-    private String poBox;
-    private String postcode;
-    private String countryCode;
-    private double latitude;
-    private double longitude;
-    private boolean isOpen;
-    private String telephone;
-    private String fax;
-    private String website;
-    private ArrayList<Category> categories;
+    protected String factualId;
+    protected String name;
+    protected String address;
+    protected String addressExtended;
+    protected String locality;
+    protected String region;
+    protected String adminRegion;
+    protected String postTown;
+    protected String poBox;
+    protected String postcode;
+    protected String countryCode;
+    protected double latitude;
+    protected double longitude;
+    protected boolean isOpen;
+    protected String telephone;
+    protected String fax;
+    protected String website;
+    protected ArrayList<Category> categories;
 
     public String getFactualId() {
         return factualId;
