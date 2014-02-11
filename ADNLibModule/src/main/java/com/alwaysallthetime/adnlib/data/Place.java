@@ -14,9 +14,9 @@ public class Place implements IAppDotNetObject {
     protected String poBox;
     protected String postcode;
     protected String countryCode;
-    protected double latitude;
-    protected double longitude;
-    protected boolean isOpen;
+    protected Double latitude;
+    protected Double longitude;
+    protected Boolean isOpen;
     protected String telephone;
     protected String fax;
     protected String website;
@@ -66,15 +66,15 @@ public class Place implements IAppDotNetObject {
         return countryCode;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public boolean isOpen() {
+    public Boolean isOpen() {
         return isOpen;
     }
 
