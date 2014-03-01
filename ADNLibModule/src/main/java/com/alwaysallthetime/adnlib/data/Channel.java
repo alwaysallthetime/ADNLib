@@ -121,6 +121,10 @@ public class Channel extends Annotatable {
         return marker;
     }
 
+    public void setMarker(StreamMarker marker) {
+        this.marker = marker;
+    }
+
     private static class Counts {
         private int messages;
         private int subscribers;
